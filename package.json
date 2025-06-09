@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/ComputadorQuebrado/pi_keyloan/issues"
   },
-  "homepage": "https://github.com/ComputadorQuebrado/pi_keyloan#readme"
+  "homepage": "https://github.com/ComputadorQuebrado/pi_keyloan#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
