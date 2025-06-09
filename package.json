@@ -1,0 +1,25 @@
+{
+  "name": "pi_keyloan",
+  "version": "1.0.0",
+  "description": "Projeto Integrador SENAC Salto TI 2-23",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ComputadorQuebrado/pi_keyloan.git"
+  },
+  "keywords": [
+    "express",
+    "express-handlebars",
+    "bootstrap",
+    "mysql"
+  ],
+  "author": "Edson Medeiros & Katia Pezuti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ComputadorQuebrado/pi_keyloan/issues"
+  },
+  "homepage": "https://github.com/ComputadorQuebrado/pi_keyloan#readme"
+}
