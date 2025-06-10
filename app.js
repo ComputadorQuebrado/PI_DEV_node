@@ -21,7 +21,7 @@ const conexao = mysql.createConnection({
 });
 
 app.get("/", function(req, res){
-    res.render('cadUsuario');
+    res.render('cadReserva');
 });
 
 conexao.connect((erro) => {
