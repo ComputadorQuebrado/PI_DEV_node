@@ -21,7 +21,7 @@ const conexao = mysql.createConnection({
 });
 
 app.get("/", function(req, res){
-    res.render('teste');
+    res.render('index');
 });
 
 conexao.connect((erro) => {
