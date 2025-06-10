@@ -33,13 +33,12 @@ INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao) VALUES
 
 -- Inserção na tabela tb_periodo
 INSERT INTO tb_periodo (descricao) VALUES
-('Manhã'), ('Tarde'), ('Noite'), ('Integral'), ('08h-10h'),
-('10h-12h'), ('14h-16h'), ('16h-18h'), ('18h-20h'), ('20h-22h');
+('Manhã'), ('Tarde'), ('Noite');
 
 -- Inserção na tabela tb_periodo_chave
 INSERT INTO tb_periodo_chave (fk_periodo, fk_chave) VALUES
 (1, 1), (2, 1), (3, 1), (1, 2), (2, 2),
-(3, 2), (4, 3), (5, 4), (6, 5), (7, 6);
+(3, 2), (1, 3), (2, 4), (3, 5), (1, 6);
 
 -- Inserção na tabela tb_reserva
 INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
