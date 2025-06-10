@@ -5,6 +5,8 @@ INSERT INTO tb_cargo (descricao_cargo) VALUES
 ('Síndico'), ('Zelador'), ('Porteiro'), ('Morador'), ('Administrador'),
 ('Manutenção'), ('Segurança'), ('Faxineiro'), ('Visitante'), ('Conselheiro');
 
+SELECT * FROM tb_cargo;
+
 -- Inserção na tabela tb_usuario
 INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo) VALUES
 (TRUE, 'PR001', 'João da Silva', 'joao.silva@email.com', TRUE, TRUE, 1),
@@ -17,6 +19,8 @@ INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, autoriza_alerta, st
 (FALSE, 'PR008', 'Juliana Alves', 'juliana.alves@email.com', TRUE, TRUE, 4),
 (FALSE, 'PR009', 'Eduardo Castro', 'eduardo.castro@email.com', TRUE, TRUE, 4),
 (FALSE, 'PR010', 'Cláudia Nunes', 'claudia.nunes@email.com', TRUE, TRUE, 4);
+
+SELECT * FROM tb_usuario;
 
 -- Inserção na tabela tb_chave
 INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao) VALUES
@@ -31,14 +35,28 @@ INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao) VALUES
 ('Sala Reunião', TRUE, TRUE, 'Sala para reuniões'),
 ('Quadra Esportes', TRUE, TRUE, 'Quadra poliesportiva');
 
+SELECT * FROM tb_chave;
+
+-- Inserção na tabela tb_periodo
 -- Inserção na tabela tb_periodo
 INSERT INTO tb_periodo (descricao) VALUES
 ('Manhã'), ('Tarde'), ('Noite');
 
+TRUNCATE TABLE tb_periodo;
+
+SELECT * FROM tb_periodo;
+
 -- Inserção na tabela tb_periodo_chave
+
 INSERT INTO tb_periodo_chave (fk_periodo, fk_chave) VALUES
 (1, 1), (2, 1), (3, 1), (1, 2), (2, 2),
 (3, 2), (1, 3), (2, 4), (3, 5), (1, 6);
+
+TRUNCATE TABLE tb_periodo_chave;
+
+DROP TABLE tb_periodo_chave;
+
+SELECT * FROM tb_periodo_chave;
 
 -- Inserção na tabela tb_reserva
 INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
@@ -53,10 +71,17 @@ INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
 (NOW(), '2025-06-22 17:00:00', 9),
 (NOW(), '2025-06-23 19:00:00', 10);
 
+SELECT * FROM tb_reserva;
+
 -- Inserção na tabela tb_reserva_periodo_chave
 INSERT INTO tb_reserva_periodo_chave (fk_reserva, fk_periodo_chave) VALUES
 (1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
 (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+TRUNCATE TABLE tb_reserva_periodo_chave;
+DROP TABLE tb_reserva_periodo_chave;
+
+SELECT * FROM tb_reserva_periodo_chave;
 
 -- Inserção na tabela tb_emprestimo
 INSERT INTO tb_emprestimo (dt_emprestimo, dt_devolucao, fk_chave, fk_usuario) VALUES
@@ -70,3 +95,5 @@ INSERT INTO tb_emprestimo (dt_emprestimo, dt_devolucao, fk_chave, fk_usuario) VA
 (NOW(), '2025-06-21 17:00:00', 8, 8),
 (NOW(), '2025-06-22 19:00:00', 9, 9),
 (NOW(), '2025-06-23 21:00:00', 10, 10);
+
+SELECT * FROM tb_emprestimo;
