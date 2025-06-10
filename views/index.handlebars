@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyLoan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            KeyLoan
+        </a>
+    </nav>
+
+    <main class="container">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputChaveID">Chave</label>
+                    <input type="text" class="form-control" id="inputChaveID" placeholder="Digite Sigla da Chave">
+                    
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="prontuario">Identificação</label>
+                    <input class="form-control" type="text" id="prontuario" placeholder="Informe seu código">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <button type="button" class="btn btn-primary btn-sm">REGISTRAR RESERVA</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarUsuario">CADASTRAR USUÁRIO</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">CADASTRAR CHAVE</button>
+                </div>
+            </div>    
+        </form>
+            
+        <div>
+            
+
+        </div>
+        <div>
+            <img src="..\imagem\chave.png" class="d-none" alt="" height="104" width="104">
+        </div>
+        <div class="d-none">
+            <p>Chave XXXX retirada!</p>    
+            <p>Passe a chave novamente para confirmar.</p>
+            <p>mensagem exibida por 10 segundos</p>
+        </div>
+        <div class="d-none">
+            <p>Chave XXXX devolvida!</p>
+            <p>dd/mm/aaaa hh:mm</p>
+            <p>mensagem exibida por 5 segundos</p>
+        </div>
+    </main>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="bg-dark text-center text-light py-3">
+          <p>TI Noturno 2-23</p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
