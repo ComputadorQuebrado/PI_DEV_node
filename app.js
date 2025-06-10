@@ -20,16 +20,24 @@ const conexao = mysql.createConnection({
   database: 'db_pi_keyloan'
 });
 
-app.get("/", function(req, res){
-    res.render('cadReserva');
-});
-
 conexao.connect((erro) => {
   if (erro) {
     console.error('😫 Erro ao conectar ao banco de dados:', erro);
     return;
   }
   console.log('😁 Conexão com o banco de dados estabelecida com sucesso!');
+});
+
+app.get("/", function(req, res){
+  let sql = 'SELECT * FROM tb_reserva';
+  conexao.query(sql, function (erro, tb_reserva_qs) {
+    if (erro) {
+      console.error('Erro ao consultar reservas: ', erro);
+      res.status(500).send('Erro ao consultar reservas');
+      return;
+    }
+    res.render('cadReserva', {tb_reserva: tb_reserva_qs});
+  });
 });
 
 app.listen(8080);
