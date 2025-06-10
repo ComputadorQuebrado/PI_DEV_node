@@ -29,7 +29,7 @@ conexao.connect((erro) => {
 });
 
 app.get("/", function(req, res){
-  let sql = 'SELECT * FROM tb_reserva';
+  let sql = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
   conexao.query(sql, function (erro, tb_reserva_qs) {
     if (erro) {
       console.error('Erro ao consultar reservas: ', erro);
