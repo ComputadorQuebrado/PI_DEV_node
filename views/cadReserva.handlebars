@@ -23,8 +23,13 @@
                 <div class="form-group col-md-4">
                     <label for="idchave">ID da chave</label>
                     <select name="idchave" id="idchave" class="form-control">
-                        <option value="SALFESTA01">Salão Festa 01</option>
-                        <option value="SALFESTA02">Salão Festa 02</option>
+                        {{#if tb_chave.length}}
+                            {{#each tb_chave}}
+                                <option value={{this.id_chave}}>{{this.titulo}}</option>
+                            {{/each}}
+                        {{else}}
+                            <option value="NA">Sem chaves disponíveis.</option>
+                        {{/if}}
                     </select>
                 </div>
             </div>
@@ -52,7 +57,7 @@
                 <div class="form-group col-md-8">
                     <label for="reservas">Próximas Reservas</label>
                     <div class="container">
-                        {{!<a href="/clientes" class="btn btn-primary m-3" role="button">Clientes</a>}}
+                        <a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>
                         {{#if tb_reserva.length}}
                             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {{#each tb_reserva}}

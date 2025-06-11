@@ -71,6 +71,9 @@ INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
 (NOW(), '2025-06-22 17:00:00', 9),
 (NOW(), '2025-06-23 19:00:00', 10);
 
+INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
+(NOW(), '2025-05-13 19:19:19', 3);
+
 SELECT * FROM tb_reserva;
 
 -- Inserção na tabela tb_reserva_periodo_chave

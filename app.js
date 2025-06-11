@@ -28,15 +28,27 @@ conexao.connect((erro) => {
   console.log('😁 Conexão com o banco de dados estabelecida com sucesso!');
 });
 
-app.get("/", function(req, res){
-  let sql = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
-  conexao.query(sql, function (erro, tb_reserva_qs) {
+app.get("/", function (req,res){
+  res.render('index');
+});
+
+app.get("/reserva", function(req, res){
+  let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
+  let sqlchave = 'SELECT * FROM tb_chave WHERE status_chave = 1';
+  conexao.query(sqlchave, function (erro, tb_chave_qs) {
     if (erro) {
-      console.error('Erro ao consultar reservas: ', erro);
-      res.status(500).send('Erro ao consultar reservas');
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    res.render('cadReserva', {tb_reserva: tb_reserva_qs});
+    conexao.query(sqlreserva, function (erro, tb_reserva_qs) {
+      if (erro) {
+        console.error('Erro ao consultar reservas: ', erro);
+        res.status(500).send('Erro ao consultar reservas');
+        return;
+      }
+      res.render('cadReserva', {tb_reserva: tb_reserva_qs, tb_chave: tb_chave_qs});
+    });
   });
 });
 
