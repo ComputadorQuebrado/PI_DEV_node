@@ -61,16 +61,18 @@
                         {{#if tb_reserva.length}}
                             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {{#each tb_reserva}}
-                                <div class="col">
-                                <div class="card h-100 bg-light border-primary">
-                                    <div class="card-body">
-                                    <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{this.dt_reserva}}</h6>
-                                    <p class="card-text">Dt Evento {{this.dt_planejada}}</p>
-                                    <p class="card-text">ID Chave {{this.fk_chave}}</p>
+                                {{!{{#ifEquals fk_chave 1}}
+                                    <div class="col">
+                                    <div class="card h-100 bg-light border-primary">
+                                        <div class="card-body">
+                                        <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{this.dt_reserva}}</h6>
+                                        <p class="card-text">Dt Evento {{this.dt_planejada}}</p>
+                                        <p class="card-text">ID Chave {{this.fk_chave}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                </div>
+                                    </div>
+                                {{!{{/ifEquals}}
                             {{/each}}
                             </div>
                         {{else}}

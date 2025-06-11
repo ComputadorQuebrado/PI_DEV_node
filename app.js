@@ -32,6 +32,10 @@ app.get("/", function (req,res){
   res.render('index');
 });
 
+app.get("/cadChave", function(req,res){
+  res.render('cadChave');
+});
+
 app.get("/cadReserva", function(req, res){
   let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
   let sqlchave = 'SELECT * FROM tb_chave WHERE status_chave = 1';
