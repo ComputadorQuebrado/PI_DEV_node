@@ -5,5 +5,3 @@ temp/
 dist/
 
 package-lock.json
-
-scriptdb/

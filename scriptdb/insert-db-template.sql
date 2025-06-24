@@ -42,7 +42,7 @@ SELECT * FROM tb_chave;
 INSERT INTO tb_periodo (descricao) VALUES
 ('Manhã'), ('Tarde'), ('Noite');
 
-TRUNCATE TABLE tb_periodo;
+DROP TABLE tb_periodo;
 
 SELECT * FROM tb_periodo;
 

@@ -16,6 +16,8 @@ permite_reserva BOOLEAN,
 descricao VARCHAR(40)
 );
 
+ALTER TABLE tb_chave ADD COLUMN emprestada BOOLEAN DEFAULT false;
+
 CREATE TABLE tb_periodo (
 id_periodo INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
 descricao VARCHAR(10)
