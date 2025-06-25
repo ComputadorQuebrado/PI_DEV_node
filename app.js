@@ -46,6 +46,21 @@ app.get("/cadChave", function(req,res){
   res.render('cadChave');
 });
 
+app.post('/cadChave/add', (req, res) => {
+  const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
+  const sql=`
+  INSERT INTO produtos (nome, descricao, preco, estoque, categoria_id)
+  VALUES (?,?,?,?,?)
+  `;
+  conexao.query(sql,[nome, descricao, preco, estoque, categoria_id], (erro,resultado) => {
+    if(erro){
+      console.error('Erro ao inserir produto:',erro);
+      return res.status(500).send('Erro ao adicionar produto');
+    }
+    res.redirect('/');
+  });
+});
+
 app.get("/cadUsuario", function(req,res){
   res.render('cadUsuario');
 });
