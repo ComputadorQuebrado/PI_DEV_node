@@ -21,7 +21,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo()">CONFIRMAR EMPRÉSTIMO</button>
+                <button id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR EMPRÉSTIMO</button>
             </div>
         </div>
         <div class="form-row">
@@ -61,10 +61,10 @@
 
 <script>
 function confirmarEmprestimo(url) {
-    const form = document.getElementById('formDelete');
+    const form = document.getElementById('formEmprestimo');
     form.action = url;
 
-    const toastEl = document.getElementById('toastConfirmarDelete');
+    const toastEl = document.getElementById('toastConfirmarEmprestimo');
     const toast = new bootstrap.Toast(toastEl);
     toast.show();
 }
