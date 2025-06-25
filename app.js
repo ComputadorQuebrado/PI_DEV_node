@@ -31,7 +31,15 @@ conexao.connect((erro) => {
 });
 
 app.get("/", function (req,res){
-  res.render('index');
+  let sql = 'SELECT * FROM tb_chave';
+  conexao.query(sql, function (erro, tb_chave_qs) {
+    if (erro) {
+      console.error('Erro ao emprestar/devolver chaves: ', erro);
+      res.status(500).send('Erro ao emprestar/devolver chave');
+      return;
+    }
+    res.render('index', {tb_chave: tb_chave_qs, tb_chave: tb_chave_qs});
+  });
 });
 
 app.get("/cadChave", function(req,res){
