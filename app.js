@@ -31,14 +31,14 @@ conexao.connect((erro) => {
 });
 
 app.get("/", function (req,res){
-  let sql = 'SELECT * FROM tb_chave';
-  conexao.query(sql, function (erro, tb_chave_qs) {
+  let sql = 'SELECT * FROM tb_emprestimo';
+  conexao.query(sql, function (erro, tb_emprestimo_qs) {
     if (erro) {
       console.error('Erro ao emprestar/devolver chaves: ', erro);
       res.status(500).send('Erro ao emprestar/devolver chave');
       return;
     }
-    res.render('index', {tb_chave: tb_chave_qs, tb_chave: tb_chave_qs});
+    res.render('index', {tb_emprestimo: tb_emprestimo_qs, tb_emprestimo: tb_emprestimo_qs});
   });
 });
 
