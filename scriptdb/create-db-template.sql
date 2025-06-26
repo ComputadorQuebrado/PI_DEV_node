@@ -16,6 +16,7 @@ permite_reserva BOOLEAN,
 descricao VARCHAR(40)
 );
 
+
 ALTER TABLE tb_chave ADD COLUMN emprestada BOOLEAN DEFAULT false;
 
 CREATE TABLE tb_periodo (
@@ -68,3 +69,12 @@ fk_usuario INT NOT NULL,
 FOREIGN KEY (fk_chave) REFERENCES tb_chave(id_chave),
 FOREIGN KEY (fk_usuario) REFERENCES tb_usuario(id_usuario)
 );
+
+
+alter table tb_chave modify status_chave varchar(10) DEFAULT 'ATIVO';
+
+alter table tb_chave modify permite_reserva varchar(10) DEFAULT 'SIM';
+
+alter table tb_chave modify emprestada varchar(10) DEFAULT 'NÃO';
+
+update tb_chave set status_chave = 'ATIVO', permite_reserva = 'SIM', emprestada = 'SIM' where 1=1;
