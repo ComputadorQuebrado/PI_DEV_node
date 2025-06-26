@@ -44,6 +44,23 @@ app.get("/", function (req,res){
   });
 });
 
+app.post("/emprestimo/retirar", (req, res) => {
+  const {fk_chave, fk_usuario} = req.body;
+
+  const sql = `
+      INSERT INTO tb_emprestimo (fk_chave, fk_usuario)
+      VALUES (?,?)
+  `;
+
+  conexao.query(sql, [fk_chave, fk_usuario], (erro, resultado) => {
+    if (erro) {
+      console.error('Erro ao retirar chave: ', erro);
+      return res.status(500).send('Erro ao retirar chave.');
+    }
+    res.redirect('/');
+  });
+});
+
 app.get("/cadChave", function(req,res){
   res.render('cadChave');
 });

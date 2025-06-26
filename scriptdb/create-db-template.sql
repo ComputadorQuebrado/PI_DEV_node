@@ -78,3 +78,5 @@ alter table tb_chave modify permite_reserva varchar(10) DEFAULT 'SIM';
 alter table tb_chave modify emprestada varchar(10) DEFAULT 'NÃO';
 
 update tb_chave set status_chave = 'ATIVO', permite_reserva = 'SIM', emprestada = 'SIM' where 1=1;
+ALTER TABLE tb_emprestimo
+MODIFY COLUMN dt_devolucao DATETIME DEFAULT (CURRENT_TIMESTAMP + INTERVAL 3 HOUR);
