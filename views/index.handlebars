@@ -36,7 +36,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button type="submit" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR EMPRÉSTIMO</button>
+                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR EMPRÉSTIMO</button>
             </div>
         </div>
         <div class="form-row">
@@ -57,6 +57,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
             </div>
             <div class="toast-body">
+                Deseja mesmo retirar esta chave por 3 horas?
                 <div class="mt-2 pt-2 border-top d-flex justify-content-end gap-2">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Cancelar</button>
                     <form id="formEmprestimo" method="POST">
