@@ -3,6 +3,27 @@ const express = require('express');
 const app = express();
 const {engine} = require('express-handlebars');
 
+app.engine('handlebars', engine({
+  helpers: {
+    ifCond: function (v1, operator, v2, options) {
+      switch (operator) {
+        case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        default:
+          return options.inverse(this);
+      }
+    }
+  }
+}));
+
 app.use(express.urlencoded({extended: true}));
 
 const mysql = require('mysql2');
@@ -58,6 +79,18 @@ app.post("/emprestimo/retirar", (req, res) => {
       return res.status(500).send('Erro ao retirar chave.');
     }
     res.redirect('/');
+  });
+});
+
+app.get("/chaves", function (req,res){
+  let sql = 'SELECT * FROM tb_chave';
+  conexao.query(sql, function (erro, tb_chave_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chave');
+      return;
+    }
+    res.render('index', {tb_emprestimo: tb_emprestimo_qs, tb_emprestimo: tb_emprestimo_qs});
   });
 });
 

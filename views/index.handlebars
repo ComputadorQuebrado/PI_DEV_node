@@ -44,7 +44,9 @@
                 {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarReserva">CADASTRAR RESERVA</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarUsuario">CADASTRAR USUÁRIO</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">CADASTRAR CHAVE</button>
+                <form action="/chaves" method="GET">
+                    <button type="submit" class="btn btn-secondary btn-sm" id="btnCadastrarChave">CADASTRAR CHAVE</button>
+                </form>
             </div>
         </div>    
     </form>
