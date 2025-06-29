@@ -8,28 +8,22 @@
   </style>
 
 <main>
-    <h1 class="text-center my-4">Lista de Chaves</h1>
+    <h1 class="text-center my-4">Chave - Detalhes</h1>
+    
     <div class="container">
-      <a href="/cadChave">Cadastrar Chave</a>
-      {{#if tb_chaves.length}}
+      <a href="/chave/{{tb_chave.id_chave}}/editar">Editar</a>
+      <a href="/chave/{{tb_chave.id_chave}}/remover">Remover</a>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          {{#each tb_chaves}}
             <div class="col">
-              <a href="/chave/{{this.id_chave}}/detalhes">
+              <a href="/chave/{{tb_chave.id_chave}}/detalhes">
                 <div class="card h-100 bg-light border-primary">
                   <div class="card-body">
-                    <h5 class="card-title text-primary"> {{this.titulo}}</h5>
+                    <h5 class="card-title text-primary"> {{tb_chave.titulo}}</h5>
                   </div>
                 </div>
               </a>
             </div>
-          {{/each}}
         </div>
-      {{else}}
-        <div class="alert alert-warning text-center" role="alert">
-          Sem chaves disponíveis no momento.
-        </div>
-      {{/if}}
     </div>
 </main>
 

@@ -42,7 +42,7 @@ SELECT * FROM tb_chave;
 INSERT INTO tb_periodo (descricao) VALUES
 ('Manhã'), ('Tarde'), ('Noite');
 
-DROP TABLE tb_periodo;
+--DROP TABLE tb_periodo;
 
 SELECT * FROM tb_periodo;
 
@@ -52,9 +52,9 @@ INSERT INTO tb_periodo_chave (fk_periodo, fk_chave) VALUES
 (1, 1), (2, 1), (3, 1), (1, 2), (2, 2),
 (3, 2), (1, 3), (2, 4), (3, 5), (1, 6);
 
-TRUNCATE TABLE tb_periodo_chave;
+--TRUNCATE TABLE tb_periodo_chave;
 
-DROP TABLE tb_periodo_chave;
+--DROP TABLE tb_periodo_chave;
 
 SELECT * FROM tb_periodo_chave;
 
@@ -81,8 +81,8 @@ INSERT INTO tb_reserva_periodo_chave (fk_reserva, fk_periodo_chave) VALUES
 (1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
 (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
-TRUNCATE TABLE tb_reserva_periodo_chave;
-DROP TABLE tb_reserva_periodo_chave;
+--TRUNCATE TABLE tb_reserva_periodo_chave;
+--DROP TABLE tb_reserva_periodo_chave;
 
 SELECT * FROM tb_reserva_periodo_chave;
 

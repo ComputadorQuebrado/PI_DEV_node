@@ -27,7 +27,7 @@
 
   function redirecionarParaCadChave() {
     // Redireciona para a página desejada
-    window.location.href = "/cadChave";
+    window.location.href = "/chaves";
   }
   
   // Espera o DOM carregar e associa a função ao botão

@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const {engine} = require('express-handlebars');
 
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+
 app.engine('handlebars', engine({
   helpers: {
     ifCond: function (v1, operator, v2, options) {
@@ -29,12 +32,12 @@ app.use(express.urlencoded({extended: true}));
 const mysql = require('mysql2');
 
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use('/bootstrap-icons', express.static(__dirname + '/node_modules/bootstrap-icons/font'));
 app.use('/static', express.static(__dirname + '/static'));
 
 app.use('/js',express.static(__dirname+'/js'));
 
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
+
 app.set('views', './views');
  
 const conexao = mysql.createConnection({
@@ -53,7 +56,7 @@ conexao.connect((erro) => {
   console.log('😁 Conexão com o banco de dados estabelecida com sucesso!');
 });
 
-app.get("/", function (req,res){
+app.get('/', function (req,res){
   let sql = 'SELECT * FROM tb_emprestimo';
   conexao.query(sql, function (erro, tb_emprestimo_qs) {
     if (erro) {
@@ -65,7 +68,7 @@ app.get("/", function (req,res){
   });
 });
 
-app.post("/emprestimo/retirar", (req, res) => {
+app.post('/emprestimo/retirar', (req, res) => {
   const {fk_chave, fk_usuario} = req.body;
 
   const sql = `
@@ -82,19 +85,20 @@ app.post("/emprestimo/retirar", (req, res) => {
   });
 });
 
-app.get("/chaves", function (req,res){
-  let sql = 'SELECT * FROM tb_chave';
-  conexao.query(sql, function (erro, tb_chave_qs) {
-    if (erro) {
-      console.error('Erro ao consultar chaves: ', erro);
-      res.status(500).send('Erro ao consultar chave');
-      return;
-    }
-    res.render('index', {tb_emprestimo: tb_emprestimo_qs, tb_emprestimo: tb_emprestimo_qs});
-  });
-});
+//app.get("/chaves", function (req,res){
+  //let sql = 'SELECT * FROM tb_chave';
+  //conexao.query(sql, function (erro, tb_chave_qs) {
+  //  if (erro) {
+  //    console.error('Erro ao consultar chaves: ', erro);
+  //console.log("passei aqui");
+      //res.status(500).send('Erro ao consultar chave');
+  //    return;
+  //  }
+  //  res.render('chaves');//, {chaves: tb_chave_qs});
+  //});
+//});
 
-app.get("/cadChave", function(req,res){
+app.get('/cadChave', function(req,res){
   res.render('cadChave');
 });
 
@@ -113,11 +117,81 @@ app.post('/cadChave/add', (req, res) => {
   });
 });
 
-app.get("/cadUsuario", function(req,res){
+app.get('/chaves', function(req,res){
+  let sql = 'SELECT * FROM tb_chave';
+  conexao.query(sql, function (erro, tb_chaves_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
+      return;
+    }
+    res.render('chaves', {tb_chaves: tb_chaves_qs});
+  });
+});
+
+app.get('/chave/:id/detalhes', function(req,res){
+  const id = req.params.id;
+
+  let sql = `SELECT * FROM tb_chave 
+             WHERE id_chave = ?`;
+  
+  conexao.query(sql, [id], function (erro, tb_chave_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chave: ', erro);
+      res.status(500).send('Erro ao consultar chave');
+      return;
+    }
+    res.render('chave', {tb_chave: tb_chave_qs[0]});
+  });
+});
+
+app.get('/chave/:id/editar', function(req,res){
+  const id = req.params.id;
+  let sql = `SELECT * FROM tb_chave 
+             WHERE id_chave = ?`;
+  
+  conexao.query(sql, [id], function (erro, tb_chave_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chave: ', erro);
+      res.status(500).send('Erro ao consultar chave');
+      return;
+    }
+    res.render('chaves', {tb_chave: tb_chave_qs[0]});
+  });
+});
+
+app.get('/chave/:id/remover', function(req,res){
+  const id = req.params.id;
+
+  let sql = `DELETE FROM tb_chave 
+             WHERE id_chave = ?`;
+
+  console.log([id]);
+
+  conexao.query(sql, [id], function (erro, tb_chave_del) {
+    if (erro) {
+      console.error('Erro ao remover chave: ', erro);
+      res.status(500).send('Erro ao remover chave');
+      return;
+    }
+  });
+
+  let sql2 = 'SELECT * FROM tb_chave';
+  conexao.query(sql2, function (erro2, tb_chaves_qs) {
+    if (erro2) {
+      console.error('Erro ao consultar chaves: ', erro2);
+      res.status(500).send('Erro ao consultar chaves');
+      return;
+    }
+    res.render('chaves', {tb_chaves: tb_chaves_qs});
+  });
+});
+
+app.get('/cadUsuario', function(req,res){
   res.render('cadUsuario');
 });
 
-app.get("/cadReserva", function(req, res){
+app.get('/cadReserva', function(req, res){
   let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
   let sqlchave = 'SELECT * FROM tb_chave WHERE status_chave = 1';
   conexao.query(sqlchave, function (erro, tb_chave_qs) {
