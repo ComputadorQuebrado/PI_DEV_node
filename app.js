@@ -113,7 +113,7 @@ app.post('/cadChave/add', (req, res) => {
       console.error('Erro ao inserir chave:',erro);
       return res.status(500).send('Erro ao adicionar chave');
     }
-    res.redirect('/');
+    res.redirect('/chaves');
   });
 });
 
@@ -176,15 +176,8 @@ app.get('/chave/:id/remover', function(req,res){
     }
   });
 
-  let sql2 = 'SELECT * FROM tb_chave';
-  conexao.query(sql2, function (erro2, tb_chaves_qs) {
-    if (erro2) {
-      console.error('Erro ao consultar chaves: ', erro2);
-      res.status(500).send('Erro ao consultar chaves');
-      return;
-    }
-    res.render('chaves', {tb_chaves: tb_chaves_qs});
-  });
+  res.redirect('/chaves');
+
 });
 
 app.get('/cadUsuario', function(req,res){

@@ -5,6 +5,7 @@
 </nav>
 
 <main class="container">
+    <h3 class="text-center my-4">Retirada de Chave</h3>
     <form action="/emprestimo/retirar" method="POST">
         <div class="form-row">
             <div class="form-group col-md-4">
@@ -36,7 +37,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR EMPRÉSTIMO</button>
+                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR RETIRADA</button>
             </div>
         </div>
         <div class="form-row">
@@ -44,7 +45,7 @@
                 {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarReserva">CADASTRAR RESERVA</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarUsuario">CADASTRAR USUÁRIO</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">CADASTRAR CHAVE</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">LISTA DE CHAVES</button>
             </div>
         </div>    
     </form>

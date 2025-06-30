@@ -1,32 +1,24 @@
-  <style>
-    .card:hover {
-      transform: scale(1.03);
-      transition: transform 0.3s ease;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-      cursor: pointer;
-    }
-  </style>
-
-<main>
-    <h1 class="text-center my-4">Chave - Detalhes</h1>
-    
-    <div class="container">
-      <a href="/chave/{{tb_chave.id_chave}}/editar">Editar</a>
-      <a href="/chave/{{tb_chave.id_chave}}/remover">Remover</a>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div class="col">
-              <a href="/chave/{{tb_chave.id_chave}}/detalhes">
-                <div class="card h-100 bg-light border-primary">
-                  <div class="card-body">
-                    <h5 class="card-title text-primary"> {{tb_chave.titulo}}</h5>
-                  </div>
-                </div>
-              </a>
+  <main class="container">
+    <h3 class="text-center my-4">Detalhes da Chave</h3>
+    <a href="/chave/{{tb_chave.id_chave}}/editar">EDITAR</a>
+    <a href="/chave/{{tb_chave.id_chave}}/remover">REMOVER</a>
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="card h-100 bg-light border-primary">
+            <div class="card-body">
+              <h5 class="card-title text-primary">{{tb_chave.titulo}}</h5>
+              <p class="card-text"><small class="text-muted">{{tb_chave.descricao}}</small></p>
+              <p class="card-text"><small class="text-muted">Status: {{tb_chave.status_chave}}</small></p>
+              <p class="card-text"><small class="text-muted">Permite Reserva? {{tb_chave.permite_reserva}}</small></p>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</main>
+    <a href="/chaves" class="btn btn-secondary btn-sm">LISTA DE CHAVES</a>
+  </main>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
