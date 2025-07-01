@@ -160,7 +160,7 @@ app.get('/chave/:id/editar', function(req,res){
   });
 });
 
-app.get('/chave/:id/remover', function(req,res){
+app.post('/chave/:id/remover', function(req,res){
   const id = req.params.id;
 
   let sql = `DELETE FROM tb_chave 

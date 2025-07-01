@@ -6,17 +6,21 @@
       cursor: pointer;
     }
   </style>
+  <nav class="navbar navbar-dark bg-dark py-1">
+      <a class="navbar-brand" href="#">
+          KeyLoan - Chaves
+      </a>
+  </nav>
 
   <main class="container">
-    <h3 class="text-center my-4">Lista de Chaves</h3>
     <div>
-      <a href="/cadChave">CADASTRAR CHAVE</a>
+      <a href="/cadChave" class="btn btn-primary btn-sm my-3"><i class="bi bi-plus"></i>CHAVE</a>
       {{#if tb_chaves.length}}
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
           {{#each tb_chaves}}
             <div class="col">
               <a href="/chave/{{this.id_chave}}/detalhes">
-                <div class="card h-70 bg-light border-primary">
+                <div class="card h-70 bg-light border-primary my-1">
                   <div class="card-body">
                     <h6 class="card-title text-primary"> {{this.titulo}}</h6>
                   </div>
@@ -31,9 +35,6 @@
         </div>
       {{/if}}
     </div>
-    <a href="/" class="btn btn-secondary btn-sm">EMPRÉSTIMO DE CHAVE</a>
+    <a href="/" class="btn btn-secondary btn-sm my-3"><i class="bi bi-arrow-left"></i>RETIRADA</a>
   </main>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
