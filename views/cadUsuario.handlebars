@@ -21,15 +21,14 @@
         <form>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="codigo">Código</label>
-                    <input class="form-control" type="text" id="codigo" placeholder="Código">
+                    <label for="prontuario">Prontuário</label>
+                    <input class="form-control" type="text" id="prontuario">
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="situacao">Situação</label>
-                    <select class="form-control" name="situacao" id="situacao">
-                        <option value="a">Ativo</option>
-                        <option value="i">Inativo</option>
-
+                <div class="form-group col-md-3">
+                    <label for="status_chave">Estado</label>
+                    <select name="status_usuario" class="form-control">
+                        <option {{#ifCond chave.status_chave '==' "ATIVO"}}selected{{/ifCond}} value="ATIVO">ATIVO</option>
+                        <option {{#ifCond chave.status_chave '==' "INATIVO"}}selected{{/ifCond}} value="INATIVO">INATIVO</option>
                     </select>
                 </div>
             </div>
@@ -49,19 +48,16 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="tipo">Tipo</label>
-                    <select class="form-control" name="tipo" id="tipo">
-                        <option value="mor">Morador</option>
-                        <option value="limp">Equip. Limpeza</option>
-                        <option value="adm">Administrativo</option>
-                        <option value="man">Manutenção</option>
+                    <label for="fk_cargo">Tipo</label>
+                    <select class="form-control" name="fk_cargo" id="fk_cargo">
+                        <option value="1">Vazio</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="perfil">Perfil</label>
-                    <select class="form-control" name="perfil" id="perfil">
-                        <option value="admin">Administrador</option>
-                        <option value="user">Usuário</option>
+                    <label for="perfil_adm">Perfil</label>
+                    <select class="form-control" name="perfil_adm" id="perfil_adm">
+                        <option value="1">Administrador</option>
+                        <option value="0">Usuário</option>
                     </select>
                 </div>
             </div>

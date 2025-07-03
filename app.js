@@ -104,6 +104,18 @@ app.get('/cadChave', function(req,res){
   });
 });
 
+app.get('/chaves', function(req,res){
+  let sql = 'SELECT * FROM tb_chave';
+  conexao.query(sql, function (erro, tb_chaves_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
+      return;
+    }
+    res.render('chaves', {tb_chaves: tb_chaves_qs});
+  });
+});
+
 app.post('/cadChave/add', (req, res) => {
   const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
   const sql=`
@@ -116,18 +128,6 @@ app.post('/cadChave/add', (req, res) => {
       return res.status(500).send('Erro ao adicionar chave');
     }
     res.redirect('/chaves');
-  });
-});
-
-app.get('/chaves', function(req,res){
-  let sql = 'SELECT * FROM tb_chave';
-  conexao.query(sql, function (erro, tb_chaves_qs) {
-    if (erro) {
-      console.error('Erro ao consultar chaves: ', erro);
-      res.status(500).send('Erro ao consultar chaves');
-      return;
-    }
-    res.render('chaves', {tb_chaves: tb_chaves_qs});
   });
 });
 
@@ -210,6 +210,34 @@ app.post('/chave/:id/remover', function(req,res){
 app.get('/cadUsuario', function(req,res){
   res.render('cadUsuario');
 });
+
+app.get('/usuarios', function(req,res){
+  let sql = 'SELECT * FROM tb_usuario';
+  conexao.query(sql, function (erro, tb_usuarios_qs) {
+    if (erro) {
+      console.error('Erro ao consultar usuarios: ', erro);
+      res.status(500).send('Erro ao consultar usuarios');
+      return;
+    }
+    res.render('usuarios', {tb_usuarios: tb_usuarios_qs});
+  });
+});
+
+app.post('/cadUsuario/add', (req, res) => {
+  const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
+  const sql=`
+  INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao)
+  VALUES (?,?,?,?)
+  `;
+  conexao.query(sql,[titulo, status_chave, permite_reserva, descricao, emprestada], (erro,resultado) => {
+    if(erro){
+      console.error('Erro ao inserir chave:',erro);
+      return res.status(500).send('Erro ao adicionar chave');
+    }
+    res.redirect('/chaves');
+  });
+});
+
 
 app.get('/cadReserva', function(req, res){
   let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';

@@ -13,7 +13,7 @@
 
   function redirecionarParaCadUsuario() {
     // Redireciona para a página desejada
-    window.location.href = "/cadUsuario";
+    window.location.href = "/usuarios";
   }
   
   // Espera o DOM carregar e associa a função ao botão
