@@ -1,6 +1,6 @@
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark py-1">
     <a class="navbar-brand" href="#">
-        KeyLoan
+        KeyLoan - Retirada de Chave
     </a>
 </nav>
 
@@ -36,7 +36,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR EMPRÉSTIMO</button>
+                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR RETIRADA</button>
             </div>
         </div>
         <div class="form-row">
@@ -44,7 +44,7 @@
                 {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarReserva">CADASTRAR RESERVA</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarUsuario">CADASTRAR USUÁRIO</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">CADASTRAR CHAVE</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnCadastrarChave">LISTA DE CHAVES</button>
             </div>
         </div>    
     </form>
@@ -69,11 +69,6 @@
     </div>
 
 </main>
-<footer class="bg-body-tertiary text-center fixed-bottom">
-    <div class="bg-dark text-center text-light py-3">
-        <p>TI Noturno 2-23</p>
-    </div>
-</footer>
 
 <script>
 function confirmarEmprestimo(url) {
@@ -86,6 +81,3 @@ function confirmarEmprestimo(url) {
 }
 </script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
