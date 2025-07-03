@@ -99,7 +99,9 @@ app.post('/emprestimo/retirar', (req, res) => {
 //});
 
 app.get('/cadChave', function(req,res){
-  res.render('cadChave');
+  res.render('cadChave',{
+            formAction: '/cadChave/add', //rota post
+  });
 });
 
 app.post('/cadChave/add', (req, res) => {
@@ -156,8 +158,33 @@ app.get('/chave/:id/editar', function(req,res){
       res.status(500).send('Erro ao consultar chave');
       return;
     }
-    res.render('chaves', {tb_chave: tb_chave_qs[0]});
+    const chave = tb_chave_qs[0];
+    res.render('cadChave', {
+                formAction: `/chave/${id}/editar`,
+                chave //rota post
+    });
   });
+});
+
+app.post('/chave/:id/editar', function(req,res){
+  const id = req.params.id;
+
+  const {titulo, status_chave, permite_reserva, descricao} = req.body;
+
+  let sql = `UPDATE tb_chave 
+              SET titulo=?, status_chave=?, permite_reserva=?, descricao=?
+             WHERE id_chave = ?`;
+
+  conexao.query(sql, [titulo, status_chave, permite_reserva, descricao,id], function (erro, tb_chave_upd) {
+    if (erro) {
+      console.error('Erro ao editar chave: ', erro);
+      res.status(500).send('Erro ao editar chave');
+      return;
+    }
+  });
+
+  res.redirect('/chaves');
+
 });
 
 app.post('/chave/:id/remover', function(req,res){
