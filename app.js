@@ -238,6 +238,21 @@ app.post('/cadUsuario/add', (req, res) => {
   });
 });
 
+app.get('/usuario/:id/detalhes', function(req,res){
+  const id = req.params.id;
+
+  let sql = `SELECT * FROM tb_usuario 
+             WHERE id_usuario = ?`;
+  
+  conexao.query(sql, [id], function (erro, tb_usuario_qs) {
+    if (erro) {
+      console.error('Erro ao consultar usuario: ', erro);
+      res.status(500).send('Erro ao consultar usuario');
+      return;
+    }
+    res.render('usuario', {tb_usuario: tb_usuario_qs[0]});
+  });
+});
 
 app.get('/cadReserva', function(req, res){
   let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
