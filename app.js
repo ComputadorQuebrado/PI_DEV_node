@@ -193,7 +193,7 @@ app.post('/chave/:id/remover', function(req,res){
   let sql = `DELETE FROM tb_chave 
              WHERE id_chave = ?`;
 
-  console.log([id]);
+  //console.log([id]);
 
   conexao.query(sql, [id], function (erro, tb_chave_del) {
     if (erro) {
@@ -208,7 +208,20 @@ app.post('/chave/:id/remover', function(req,res){
 });
 
 app.get('/cadUsuario', function(req,res){
-  res.render('cadUsuario');
+  let sql_cargo = `SELECT * 
+                    FROM tb_cargo
+                    order by descricao_cargo`;
+  
+  conexao.query(sql_cargo, function (erro, tb_cargos_qs) {
+    if (erro) {
+      console.error('Erro ao consultar cargos: ', erro);
+      res.status(500).send('Erro ao consultar cargos');
+      return;
+    }
+    res.render('cadUsuario',{tb_cargos: tb_cargos_qs,
+            formAction: '/cadUsuario/add', //rota post
+    });
+  });
 });
 
 app.get('/usuarios', function(req,res){
@@ -224,25 +237,27 @@ app.get('/usuarios', function(req,res){
 });
 
 app.post('/cadUsuario/add', (req, res) => {
-  const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
+  const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
   const sql=`
-  INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao)
-  VALUES (?,?,?,?)
+  INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, status_usuario, fk_cargo)
+  VALUES (?,?,?,?,?,?)
   `;
-  conexao.query(sql,[titulo, status_chave, permite_reserva, descricao, emprestada], (erro,resultado) => {
+  conexao.query(sql, [perfil_adm, prontuario, nome, email, status_usuario, fk_cargo], (erro,resultado) => {
     if(erro){
-      console.error('Erro ao inserir chave:',erro);
-      return res.status(500).send('Erro ao adicionar chave');
+      console.error('Erro ao inserir usuário:',erro);
+      return res.status(500).send('Erro ao adicionar usuário');
     }
-    res.redirect('/chaves');
+    res.redirect('/usuarios');
   });
 });
 
 app.get('/usuario/:id/detalhes', function(req,res){
   const id = req.params.id;
 
-  let sql = `SELECT * FROM tb_usuario 
-             WHERE id_usuario = ?`;
+  let sql = `SELECT tu.*, tc.descricao_cargo 
+            FROM tb_usuario tu INNER JOIN
+            tb_cargo tc ON tu.fk_cargo = tc.id_cargo 
+            WHERE tu.id_usuario = ?`;
   
   conexao.query(sql, [id], function (erro, tb_usuario_qs) {
     if (erro) {
@@ -252,6 +267,83 @@ app.get('/usuario/:id/detalhes', function(req,res){
     }
     res.render('usuario', {tb_usuario: tb_usuario_qs[0]});
   });
+});
+
+app.get('/usuario/:id/editar', function(req,res){
+  const id = req.params.id;
+  let sql = `SELECT * FROM tb_usuario 
+             WHERE id_usuario = ?`;
+  
+  conexao.query(sql, [id], function (erro, tb_usuario_qs) {
+    if (erro) {
+      console.error('Erro ao consultar usuário: ', erro);
+      res.status(500).send('Erro ao consultar usuário');
+      return;
+    }
+    const usuario = tb_usuario_qs[0];
+    let sql_cargo = `SELECT * 
+                    FROM tb_cargo
+                    order by descricao_cargo`;
+  
+    conexao.query(sql_cargo, function (erro, tb_cargos_qs) {
+      if (erro) {
+        console.error('Erro ao consultar cargos: ', erro);
+        res.status(500).send('Erro ao consultar cargos');
+        return;
+      }
+
+      //console.log('Tipo do fk_cargo:', typeof usuario.fk_cargo);
+      //console.log('Valor:', usuario.fk_cargo);
+
+      //console.log(tb_cargos_qs.map(c => ({
+      //  id_cargo: c.id_cargo,
+      //  tipo: typeof c.id_cargo
+      //})));
+
+      res.render('cadUsuario', {
+                  formAction: `/usuario/${id}/editar`,//rota post
+                  usuario,
+                  tb_cargos: tb_cargos_qs 
+      });
+    });
+  });
+});
+
+app.post('/usuario/:id/editar', function(req,res){
+  const id = req.params.id;
+
+  const {perfil_adm, prontuario, nome, email, status_usuario, fk_cargo} = req.body;
+
+  let sql = `UPDATE tb_usuario 
+              SET perfil_adm=?, prontuario=?, nome=?, email=?, status_usuario=?, fk_cargo=?
+             WHERE id_usuario = ?`;
+
+  conexao.query(sql, [perfil_adm, prontuario, nome, email, status_usuario, fk_cargo, id], function (erro, tb_chave_upd) {
+    if (erro) {
+      console.error('Erro ao editar usuário: ', erro);
+      res.status(500).send('Erro ao editar usuário');
+      return;
+    }
+  });
+  res.redirect('/usuarios');
+});
+
+app.post('/usuario/:id/remover', function(req,res){
+  const id = req.params.id;
+
+  let sql = `DELETE FROM tb_usuario 
+             WHERE id_usuario = ?`;
+
+  console.log([id]);
+
+  conexao.query(sql, [id], function (erro, tb_usuario_del) {
+    if (erro) {
+      console.error('Erro ao remover usuário: ', erro);
+      res.status(500).send('Erro ao remover usuário');
+      return;
+    }
+  });
+  res.redirect('/usuarios');
 });
 
 app.get('/cadReserva', function(req, res){

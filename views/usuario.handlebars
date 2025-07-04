@@ -22,11 +22,11 @@
       <div class="col">
         <div class="card h-100 bg-light border-primary">
           <div class="card-body">
-            <h5 class="card-title text-primary">{{tb_usuario.prontuario}} {{tb_usuario.nome}}</h5>
+            <h5 class="card-title text-primary">{{tb_usuario.nome}} - {{tb_usuario.prontuario}}</h5>
             <p class="card-text"><small class="text-muted">Administrador: {{tb_usuario.perfil_adm}}</small></p>
             <p class="card-text"><small class="text-muted">Status: {{tb_usuario.status_usuario}}</small></p>
             <p class="card-text"><small class="text-muted">{{tb_usuario.email}}</small></p>
-            <p class="card-text"><small class="text-muted">Cargo: {{tb_usuario.fk_cargo}}</small></p>
+            <p class="card-text"><small class="text-muted">Cargo: {{tb_usuario.descricao_cargo}}</small></p>
           </div>
         </div>
       </div>
