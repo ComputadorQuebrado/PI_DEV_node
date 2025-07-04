@@ -1,29 +1,10 @@
 <nav class="navbar navbar-dark bg-dark py-1">
   <a class="navbar-brand" href="#">
-    KeyLoan
+    KeyLoan - {{#if chave}}Editar Chave{{else}}Cadastrar Chave{{/if}}
   </a>
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">Empréstimo</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Cadastro Reserva</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled text-light" href="/cadChave">Cadastro Chave</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/cadUsuario">Cadastro Usuário</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/chaves">Listar Chaves</a>
-    </li>
-  </ul>
 </nav>
+
 <main class="container">
-  <h3 class="text-center my-4">
-    {{#if chave}}Editar Chave{{else}}Cadastrar Chave{{/if}}
-  </h3>
   <form action={{formAction}} method="POST" class="mb-3 mx-auto">
     <div class="form-row">
       <div class="form-group col-md-3">
