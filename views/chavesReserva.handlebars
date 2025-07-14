@@ -1,0 +1,39 @@
+  <style>
+    .card:hover {
+      transform: scale(1.03);
+      transition: transform 0.3s ease;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+    }
+  </style>
+  <nav class="navbar navbar-dark bg-dark py-1">
+      <a class="navbar-brand" href="#">
+          KeyLoan - Cadastro de Reserva
+      </a>
+  </nav>
+
+  <main class="container">
+    <div>
+      {{#if tb_chaves.length}}
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
+          {{#each tb_chaves}}
+            <div class="col">
+              <a href="/cadReserva/{{this.id_chave}}/reservas">
+                <div class="card h-70 bg-light border-primary my-1">
+                  <div class="card-body">
+                    <h6 class="card-title text-primary"> {{this.titulo}}</h6>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="alert alert-warning text-center" role="alert">
+          Sem chaves disponíveis no momento.
+        </div>
+      {{/if}}
+    </div>
+    <a href="/" class="btn btn-secondary btn-sm my-3"><i class="bi bi-arrow-left"></i>RETIRADA</a>
+  </main>
+

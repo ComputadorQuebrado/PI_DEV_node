@@ -346,7 +346,39 @@ app.post('/usuario/:id/remover', function(req,res){
   res.redirect('/usuarios');
 });
 
-app.get('/cadReserva', function(req, res){
+app.get('/cadReserva', function(req,res){
+  let sql = 'SELECT * FROM tb_chave';
+  conexao.query(sql, function (erro, tb_chaves_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
+      return;
+    }
+    res.render('chavesReserva', {tb_chaves: tb_chaves_qs});
+  });
+});
+
+app.get('/cadReserva/:id/reservas', (req, res) => {
+    const id = req.params.id;
+
+    let sql = `SELECT tb_reserva.*, tb_chave.titulo as chave_titulo
+                FROM tb_reserva
+                JOIN tb_chave
+                ON tb_reserva.fk_chave = tb_chave.id_chave
+                WHERE tb_reserva.fk_chave = ?`;
+    
+    conexao.query(sql,[id], function(erro, tb_reserva_qs){
+        if (erro) {
+            console.error('Erro ao consultar reservas: ', erro);
+            res.status(500).send('Erro ao consultar reservas.');
+            return;
+        }
+        const reserva = tb_reserva_qs[0];
+        res.render('cadReserva', { tb_reserva: tb_reserva_qs, reserva });
+    });
+});
+
+/*app.get('/cadReserva', function(req, res){
   let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
   let sqlchave = 'SELECT * FROM tb_chave WHERE status_chave = 1';
   conexao.query(sqlchave, function (erro, tb_chave_qs) {
@@ -365,6 +397,7 @@ app.get('/cadReserva', function(req, res){
     });
   });
 });
+*/
 
 app.listen(8080);
 
