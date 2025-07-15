@@ -91,3 +91,11 @@ alter table tb_usuario drop COLUMN autoriza_alerta;
 
 ALTER TABLE tb_emprestimo
 MODIFY COLUMN dt_devolucao DATETIME DEFAULT (CURRENT_TIMESTAMP + INTERVAL 3 HOUR);
+
+ALTER TABLE tb_reserva ADD fk_usuario INT NOT NULL;
+
+SELECT * FROM tb_reserva;
+
+UPDATE tb_reserva SET fk_usuario = 1 WHERE 1=1;
+
+ALTER TABLE tb_reserva ADD CONSTRAINT fg_usuario FOREIGN KEY (fk_usuario) REFERENCES tb_usuario(id_usuario);
