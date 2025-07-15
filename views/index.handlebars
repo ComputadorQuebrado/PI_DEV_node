@@ -10,9 +10,9 @@
             <div class="form-group col-md-4">
                 <label for="inputChaveID">Chave</label>
                 <select name="fk_chave" id="idchave" class="form-control">
-                        {{#if tb_emprestimo.length}}
-                            {{#each tb_emprestimo}}
-                                <option value={{this.fk_chave}}>{{this.fk_chave}}</option>
+                        {{#if tb_chaves.length}}
+                            {{#each tb_chaves}}
+                                <option value={{this.id_chave}}>{{this.titulo}}</option>
                             {{/each}}
                         {{else}}
                             <option value="NA">Sem chaves disponíveis.</option>
@@ -24,19 +24,19 @@
             <div class="form-group col-md-4">
                 <label for="prontuario">Identificação</label>
                 <select name="fk_usuario" id="idusuario" class="form-control">
-                        {{#if tb_emprestimo.length}}
-                            {{#each tb_emprestimo}}
-                                <option value={{this.fk_usuario}}>{{this.fk_usuario}}</option>
+                        {{#if tb_usuarios.length}}
+                            {{#each tb_usuarios}}
+                                <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
                             {{/each}}
                         {{else}}
-                            <option value="NA">Sem chaves disponíveis.</option>
+                            <option value="NA">Sem usuários disponíveis.</option>
                         {{/if}}
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/{{tb_emprestimo.id}}/retirar')">CONFIRMAR RETIRADA</button>
+                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
             </div>
         </div>
         <div class="form-row">
