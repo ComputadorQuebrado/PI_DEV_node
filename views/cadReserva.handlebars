@@ -22,20 +22,28 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="titulo">ID da chave</label>
-                <input type="text" id="titulo" class="form-control" value="{{reserva.chave_titulo}}">
+                <select name="fk_chave" id="idchave" class="form-control">
+                    {{#if tb_chave.length}}
+                        {{#each tb_chave}}
+                            <option value="{{this.id_chave}}">{{this.id_chave}} - {{this.titulo}}</option>
+                        {{/each}}
+                    {{else}}
+                        <option value="NA">Sem chaves disponíveis.</option>
+                    {{/if}}
+                </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="codigo" >Código</label>
                 <select name="fk_usuario" id="idusuario" class="form-control">
-                        {{#if tb_usuario.length}}
-                            {{#each tb_usuario}}
-                                <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
-                            {{/each}}
-                        {{else}}
-                            <option value="NA">Sem usuários disponíveis.</option>
-                        {{/if}}
+                    {{#if tb_usuario.length}}
+                        {{#each tb_usuario}}
+                            <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
+                        {{/each}}
+                    {{else}}
+                        <option value="NA">Sem usuários disponíveis.</option>
+                    {{/if}}
                 </select>
             </div>
         </div>
@@ -54,18 +62,16 @@
                     {{#if tb_reserva.length}}
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         {{#each tb_reserva}}
-                            {{!{{#ifEquals fk_chave 1}}
                                 <div class="col">
                                 <div class="card h-100 bg-light border-primary">
                                     <div class="card-body">
                                     <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
+                                    <p class="card-text">{{this.chave_titulo}}</p>
                                     <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{this.dt_reserva}}</h6>
                                     <p class="card-text">Dt Retorno {{this.dt_planejada}}</p>
-                                    <p class="card-text">Nome da Chave {{this.chave_titulo}}</p>
                                     </div>
                                 </div>
                                 </div>
-                            {{!{{/ifEquals}}
                         {{/each}}
                         </div>
                     {{else}}
