@@ -18,19 +18,11 @@
     </ul>
 </nav>
 <main class="container">
-    <form>
+    <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="titulo">ID da chave</label>
-                <select name="fk_chave" id="idchave" class="form-control">
-                    {{#if tb_chave.length}}
-                        {{#each tb_chave}}
-                            <option value="{{this.id_chave}}">{{this.id_chave}} - {{this.titulo}}</option>
-                        {{/each}}
-                    {{else}}
-                        <option value="NA">Sem chaves disponíveis.</option>
-                    {{/if}}
-                </select>
+                <p name="fk_chave">{{chave.titulo}}</p>
             </div>
         </div>
         <div class="form-row">
@@ -50,9 +42,7 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="data">Data</label>
-                <input type="date" id="data" class="form-control" name="data_planejada">
-                <input type="text" id="hora" class="form-control" name="hr_planejada">
-                <input type="text" id="datahora" class="form-control" name="dt_planejada">
+                <input type="datetime-local" id="datahora" class="form-control" name="dt_planejada">
             </div>
         </div>
         <div class="form-row">
@@ -67,8 +57,8 @@
                                     <div class="card-body">
                                     <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
                                     <p class="card-text">{{this.chave_titulo}}</p>
-                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{this.dt_reserva}}</h6>
-                                    <p class="card-text">Dt Retorno {{this.dt_planejada}}</p>
+                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{formatDate this.dt_reserva}}</h6>
+                                    <p class="card-text">Dt Planejada {{formatDateTime this.dt_planejada}}</p>
                                     </div>
                                 </div>
                                 </div>
@@ -83,7 +73,7 @@
             </div>
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="btnCancelar">CANCELAR</button>
-        <button type="button" class="btn btn-primary btn-sm">GRAVAR</button>
+        <button type="submit" class="btn btn-primary btn-sm">GRAVAR</button>
     </form>
 </main>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
