@@ -36,7 +36,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button id="confirmarEmprestimo" role="button" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
+                <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
             </div>
         </div>
         <div class="form-row">
@@ -61,6 +61,8 @@
                 <div class="mt-2 pt-2 border-top d-flex justify-content-end gap-2">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Cancelar</button>
                     <form id="formEmprestimo" method="POST">
+                        <input type="hidden" name="fk_chave" id="hiddenFkChave">
+                        <input type="hidden" name="fk_usuario" id="hiddenFkUsuario">
                         <button type="submit" class="btn btn-sm btn-success">Confirmar</button>
                     </form>
                 </div>
@@ -72,6 +74,18 @@
 
 <script>
 function confirmarEmprestimo(url) {
+    // Pegando os selects da tela
+    const chaveSelect = document.getElementById('idchave');
+    const usuarioSelect = document.getElementById('idusuario');
+
+    // Pegando os inputs escondidos do formulário dentro do toast
+    const inputFkChave = document.getElementById('hiddenFkChave');
+    const inputFkUsuario = document.getElementById('hiddenFkUsuario');
+
+    // Atribuindo os valores selecionados
+    inputFkChave.value = chaveSelect.value;
+    inputFkUsuario.value = usuarioSelect.value;
+    
     const form = document.getElementById('formEmprestimo');
     form.action = url;
 
