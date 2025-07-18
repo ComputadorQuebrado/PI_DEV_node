@@ -402,10 +402,10 @@ app.get('/cadReserva/:id/reservas', (req, res) => {
 app.post('/cadReserva/reservar', (req, res) => {
   const {dt_planejada, fk_chave, fk_usuario} = req.body;
 
-  const sql = `INSERT INTO tb_reserva (fk_chave, fk_usuario, dt_planejada)
-                VALUES (?,?,?)`
+  const sql = `INSERT INTO tb_reserva (fk_chave, fk_usuario, dt_planejada, dt_planejadafinal)
+                VALUES (?,?,?,?)`
   
-  conexao.query(sql, [fk_chave, fk_usuario, dt_planejada], (erro,resultado) => {
+  conexao.query(sql, [fk_chave, fk_usuario, dt_planejada, dt_planejadafinal], (erro,resultado) => {
     if(erro){
       console.error('Erro ao reservar chave:',erro);
       return res.status(500).send('Erro ao reservar chave.');

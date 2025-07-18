@@ -101,3 +101,6 @@ UPDATE tb_reserva SET fk_usuario = 1 WHERE 1=1;
 ALTER TABLE tb_reserva ADD CONSTRAINT fg_usuario FOREIGN KEY (fk_usuario) REFERENCES tb_usuario(id_usuario);
 
 ALTER TABLE tb_reserva MODIFY COLUMN dt_reserva DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE tb_reserva
+ADD COLUMN dt_planejadafinal DATETIME;
