@@ -5,7 +5,7 @@
 </nav>
 
 <main class="container">
-    <form action="/emprestimo/retirar" method="POST">
+    
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputChaveID">Chave</label>
@@ -47,19 +47,22 @@
                 <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
             </div>
         </div>    
-    </form>
+    
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="toastConfirmarEmprestimo" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header bg-warning text-dark">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                 <strong class="me-auto">Confirmação</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+                <button type="button" class="btn text-dark p-0" data-bs-dismiss="toast" aria-label="Fechar" 
+                    style="margin-left: 10rem;">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
             <div class="toast-body">
-                Deseja mesmo retirar esta chave por 3 horas?
+                <span id="nome"></span>, a devolução deverá ocorrer em no máximo 3 horas!
                 <div class="mt-2 pt-2 border-top d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Desistir</button>
                     <form id="formEmprestimo" method="POST">
                         <input type="hidden" name="fk_chave" id="hiddenFkChave">
                         <input type="hidden" name="fk_usuario" id="hiddenFkUsuario">
@@ -77,6 +80,8 @@ function confirmarEmprestimo(url) {
     // Pegando os selects da tela
     const chaveSelect = document.getElementById('idchave');
     const usuarioSelect = document.getElementById('idusuario');
+    const msg = document.getElementById('nome');
+    msg.textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
 
     // Pegando os inputs escondidos do formulário dentro do toast
     const inputFkChave = document.getElementById('hiddenFkChave');
