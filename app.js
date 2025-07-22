@@ -57,14 +57,22 @@ conexao.connect((erro) => {
 });
 
 app.get('/', function (req,res){
-  let sql = 'SELECT * FROM tb_emprestimo';
-  conexao.query(sql, function (erro, tb_emprestimo_qs) {
+  let sql = 'SELECT * FROM tb_chave ORDER BY titulo';
+  conexao.query(sql, function (erro, tb_chave_qs) {
     if (erro) {
-      console.error('Erro ao emprestar/devolver chaves: ', erro);
-      res.status(500).send('Erro ao emprestar/devolver chave');
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    res.render('index', {tb_emprestimo: tb_emprestimo_qs, tb_emprestimo: tb_emprestimo_qs});
+    let sql = 'SELECT * FROM tb_usuario ORDER BY nome';
+    conexao.query(sql, function (erro, tb_usuario_qs) {
+      if (erro) {
+        console.error('Erro ao consultar usuários: ', erro);
+        res.status(500).send('Erro ao consultar usuários');
+        return;
+      }
+      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs});
+    });
   });
 });
 
