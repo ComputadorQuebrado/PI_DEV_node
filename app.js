@@ -422,6 +422,24 @@ app.post('/cadReserva/reservar', (req, res) => {
   });
 });
 
+app.post('/cadReserva/:id/remover', function(req,res){
+  const id = req.params.id;
+
+  let sql = `DELETE FROM tb_reserva 
+             WHERE id_reserva = ?`;
+
+  console.log([id]);
+
+  conexao.query(sql, [id], function (erro, tb_reserva_del) {
+    if (erro) {
+      console.error('Erro ao remover reserva: ', erro);
+      res.status(500).send('Erro ao remover reserva');
+      return;
+    }
+  });
+  res.redirect('/cadReserva');
+});
+
 /*app.post('/cadUsuario/add', (req, res) => {
   const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
   const sql=`
