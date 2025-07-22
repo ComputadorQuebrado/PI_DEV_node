@@ -18,23 +18,36 @@
     </ul>
 </nav>
 <main class="container">
-    <form>
+    <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="titulo">ID da chave</label>
-                <input type="text" id="titulo" class="form-control" value="{{reserva.chave_titulo}}">
+                <p name="id_chave">{{chave.titulo}}</p>
+                <input type="hidden" name="fk_chave" value="{{chave.id_chave}}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="codigo" >Código</label>
-                <input type="text" id="codigo" class="form-control">
+                <select name="fk_usuario" id="idusuario" class="form-control">
+                    {{#if tb_usuario.length}}
+                        {{#each tb_usuario}}
+                            <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
+                        {{/each}}
+                    {{else}}
+                        <option value="NA">Sem usuários disponíveis.</option>
+                    {{/if}}
+                </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="data">Data</label>
-                <input type="date" id="data" class="form-control">
+                <label for="datahora">Data</label>
+                <input type="datetime-local" id="dt_planejada" class="form-control" name="dt_planejada" oninput="copiarEntrada()">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="dt_planejadafinal">Hora de retorno:</label>
+                <input type="datetime-local" name="dt_planejadafinal" class="form-control" id="dt_planejadafinal">
             </div>
         </div>
         <div class="form-row">
@@ -44,18 +57,16 @@
                     {{#if tb_reserva.length}}
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         {{#each tb_reserva}}
-                            {{!{{#ifEquals fk_chave 1}}
-                                <div class="col">
+                            <div class="col">
                                 <div class="card h-100 bg-light border-primary">
                                     <div class="card-body">
-                                    <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{this.dt_reserva}}</h6>
-                                    <p class="card-text">Dt Retorno {{this.dt_planejada}}</p>
-                                    <p class="card-text">Nome da Chave {{this.chave_titulo}}</p>
+                                        <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
+                                        <p class="card-text">{{this.chave_titulo}}</p>
+                                        <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{formatDate this.dt_reserva}}</h6>
+                                        <p class="card-text">Dt Planejada {{formatDateTime this.dt_planejada}}</p>
                                     </div>
                                 </div>
-                                </div>
-                            {{!{{/ifEquals}}
+                            </div>
                         {{/each}}
                         </div>
                     {{else}}
@@ -67,9 +78,19 @@
             </div>
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="btnCancelar">CANCELAR</button>
-        <button type="button" class="btn btn-primary btn-sm">GRAVAR</button>
+        <button type="submit" class="btn btn-primary btn-sm">GRAVAR</button>
     </form>
 </main>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script>
+    function copiarEntrada(){
+        const dt_planejada = document.getElementById("dt_planejada");
+        let dt_planejadafinal = document.getElementById("dt_planejadafinal");
+        
+        let copia = dt_planejada.value;
+        dt_planejadafinal.value = copia;
+    }
+</script>

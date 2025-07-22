@@ -59,17 +59,17 @@ INSERT INTO tb_periodo_chave (fk_periodo, fk_chave) VALUES
 SELECT * FROM tb_periodo_chave;
 
 -- Inserção na tabela tb_reserva
-INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
-(NOW(), '2025-06-15 10:00:00', 1),
-(NOW(), '2025-06-15 14:00:00', 2),
-(NOW(), '2025-06-16 18:00:00', 3),
-(NOW(), '2025-06-17 09:00:00', 4),
-(NOW(), '2025-06-18 16:00:00', 5),
-(NOW(), '2025-06-19 11:00:00', 6),
-(NOW(), '2025-06-20 13:00:00', 7),
-(NOW(), '2025-06-21 15:00:00', 8),
-(NOW(), '2025-06-22 17:00:00', 9),
-(NOW(), '2025-06-23 19:00:00', 10);
+INSERT INTO tb_reserva (dt_reserva, dt_planejada, dt_planejadafinal, fk_chave, fk_usuario) VALUES
+(NOW(), '2025-07-21 10:00:00', '2025-07-21 11:00:00', 1, 1),
+(NOW(), '2025-07-21 14:00:00', '2025-07-21 15:00:00', 2, 2),
+(NOW(), '2025-07-21 18:00:00', '2025-07-21 19:00:00', 3, 3),
+(NOW(), '2025-07-21 09:00:00', '2025-07-21 10:00:00', 4, 4),
+(NOW(), '2025-07-21 16:00:00', '2025-07-21 17:00:00', 5, 5),
+(NOW(), '2025-07-21 11:00:00', '2025-07-21 12:00:00', 6, 6),
+(NOW(), '2025-07-21 13:00:00', '2025-07-21 14:00:00', 7, 7),
+(NOW(), '2025-07-21 15:00:00', '2025-07-21 16:00:00', 8, 8),
+(NOW(), '2025-07-21 17:00:00', '2025-07-21 18:00:00', 9, 9),
+(NOW(), '2025-07-21 19:00:00', '2025-07-21 20:00:00', 10, 10);
 
 INSERT INTO tb_reserva (dt_reserva, dt_planejada, fk_chave) VALUES
 (NOW(), '2025-05-13 19:19:19', 3);
@@ -100,3 +100,5 @@ INSERT INTO tb_emprestimo (dt_emprestimo, dt_devolucao, fk_chave, fk_usuario) VA
 (NOW(), '2025-06-23 21:00:00', 10, 10);
 
 SELECT * FROM tb_emprestimo;
+
+TRUNCATE TABLE tb_reserva;

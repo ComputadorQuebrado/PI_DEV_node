@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const {engine} = require('express-handlebars');
 
+const moment = require('moment');
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
@@ -23,6 +24,12 @@ app.engine('handlebars', engine({
         default:
           return options.inverse(this);
       }
+    },
+    formatDate: (date) => {
+      return moment(date).format('DD/MM/YYYY')
+    },
+    formatDateTime: (date) => {
+      return moment(date).format('DD/MM/YYYY HH:mm')
     }
   }
 }));
@@ -369,62 +376,65 @@ app.get('/cadReserva', function(req,res){
 app.get('/cadReserva/:id/reservas', (req, res) => {
     const id = req.params.id;
 
-    let sql = `SELECT tb_reserva.*, tb_chave.titulo as chave_titulo
-                FROM tb_reserva
-                JOIN tb_chave
-                ON tb_reserva.fk_chave = tb_chave.id_chave
-                WHERE tb_reserva.fk_chave = ?`;
+    let sqlChave = `SELECT * FROM tb_chave WHERE id_chave = ${id}`;
+
+    let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
+
+    let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} ORDER BY dt_planejada LIMIT 3`;
     
-    conexao.query(sql,[id], function(erro, tb_reserva_qs){
+    conexao.query(sqlChave,[id], function(erro, tb_chave_qs){
         if (erro) {
             console.error('Erro ao consultar reservas: ', erro);
             res.status(500).send('Erro ao consultar reservas.');
             return;
         }
-        const reserva = tb_reserva_qs[0];
-        res.render('cadReserva', { tb_reserva: tb_reserva_qs, reserva });
+        conexao.query(sqlUsuario, function(erro, tb_usuario_qs){
+          if(erro) {
+            console.error('Erro ao consultar usuários: ', erro);
+            res.status(500).send('Erro ao consultar usuários.');
+            return;
+          }
+          conexao.query(sqlReserva, function(erro,tb_reserva_qs){
+            if(erro) {
+              console.error('Erro ao consultar reservas: ', erro);
+              res.status(500).send('Erro ao consultar usuários.');
+              return;
+            }
+            const chave = tb_chave_qs[0];
+            res.render('cadReserva', { chave, tb_usuario: tb_usuario_qs, tb_reserva: tb_reserva_qs });
+          });
+        });
     });
 });
 
-/*app.get('/cadReserva', function(req, res){
-  let sqlreserva = 'SELECT * FROM tb_reserva WHERE dt_planejada > NOW()';
-  let sqlchave = 'SELECT * FROM tb_chave WHERE status_chave = 1';
-  conexao.query(sqlchave, function (erro, tb_chave_qs) {
-    if (erro) {
-      console.error('Erro ao consultar chaves: ', erro);
-      res.status(500).send('Erro ao consultar chaves');
-      return;
+app.post('/cadReserva/reservar', (req, res) => {
+  const {dt_planejada, fk_chave, fk_usuario, dt_planejadafinal} = req.body;
+
+  const sql = `INSERT INTO tb_reserva (fk_chave, fk_usuario, dt_planejada, dt_planejadafinal)
+                VALUES (?,?,?,?)`
+  
+  conexao.query(sql, [fk_chave, fk_usuario, dt_planejada, dt_planejadafinal], (erro,resultado) => {
+    if(erro){
+      console.error('Erro ao reservar chave:',erro);
+      return res.status(500).send('Erro ao reservar chave.');
     }
-    conexao.query(sqlreserva, function (erro, tb_reserva_qs) {
-      if (erro) {
-        console.error('Erro ao consultar reservas: ', erro);
-        res.status(500).send('Erro ao consultar reservas');
-        return;
-      }
-      res.render('cadReserva', {tb_reserva: tb_reserva_qs, tb_chave: tb_chave_qs});
-    });
+    res.redirect('/cadReserva');
   });
 });
-*/
+
+/*app.post('/cadUsuario/add', (req, res) => {
+  const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
+  const sql=`
+  INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, status_usuario, fk_cargo)
+  VALUES (?,?,?,?,?,?)
+  `;
+  conexao.query(sql, [perfil_adm, prontuario, nome, email, status_usuario, fk_cargo], (erro,resultado) => {
+    if(erro){
+      console.error('Erro ao inserir usuário:',erro);
+      return res.status(500).send('Erro ao adicionar usuário');
+    }
+    res.redirect('/usuarios');
+  });
+});*/
 
 app.listen(8080);
-
-/*
-const mysql = require('mysql2');
- 
-const conexao = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'senac',
-  port: 3306,
-  database: 'ecommerce_pc'
-});
- 
-conexao.connect((erro) => {
-  if (erro) {
-    console.error('😫 Erro ao conectar ao banco de dados:', erro);
-    return;
-  }
-  console.log('😁 Conexão com o banco de dados estabelecida com sucesso!');
-});
-*/

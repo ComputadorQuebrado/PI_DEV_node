@@ -60,3 +60,10 @@
       botao.addEventListener("click", redirecionarParaCadUsuario);
     }
   });
+
+  function juntarInputs() {
+    let data = document.getElementById("data");
+    let hora = document.getElementById("hora");
+    let datahora = ConvertToString(data+hora);
+    return datahora;
+  };
