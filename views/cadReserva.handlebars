@@ -22,7 +22,8 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="titulo">ID da chave</label>
-                <p name="fk_chave">{{chave.titulo}}</p>
+                <p name="id_chave">{{chave.titulo}}</p>
+                <input type="hidden" name="fk_chave" value="{{chave.id_chave}}">
             </div>
         </div>
         <div class="form-row">
@@ -42,23 +43,11 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="datahora">Data</label>
-                <input type="datetime-local" id="dt_planejada" class="form-control" name="dt_planejada">
-                <input type="text" id="dt_planejada2" class="form-control" name="dt_planejada2">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="somadata">Quantas horas a reserva irá durar?</label>
-                <select name="somahora" id="somahora" class="form-control">
-                    <option value="1">1 Hora</option>
-                    <option value="2">2 Horas</option>
-                    <option value="3">3 Horas</option>
-                    <option value="4">4 Horas</option>
-                    <option value="5">5 Horas</option>
-                    <option value="6">6 Horas</option>
-                </select>
+                <input type="datetime-local" id="dt_planejada" class="form-control" name="dt_planejada" oninput="copiarEntrada()">
             </div>
             <div class="form-group col-md-4">
                 <label for="dt_planejadafinal">Hora de retorno:</label>
-                <input type="datetime-local" name="dt_planejadafinal" id="dt_planejadafinal" readonly>
+                <input type="datetime-local" name="dt_planejadafinal" class="form-control" id="dt_planejadafinal">
             </div>
         </div>
         <div class="form-row">
@@ -68,16 +57,16 @@
                     {{#if tb_reserva.length}}
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         {{#each tb_reserva}}
-                                <div class="col">
+                            <div class="col">
                                 <div class="card h-100 bg-light border-primary">
                                     <div class="card-body">
-                                    <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
-                                    <p class="card-text">{{this.chave_titulo}}</p>
-                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{formatDate this.dt_reserva}}</h6>
-                                    <p class="card-text">Dt Planejada {{formatDateTime this.dt_planejada}}</p>
+                                        <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
+                                        <p class="card-text">{{this.chave_titulo}}</p>
+                                        <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{formatDate this.dt_reserva}}</h6>
+                                        <p class="card-text">Dt Planejada {{formatDateTime this.dt_planejada}}</p>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         {{/each}}
                         </div>
                     {{else}}
@@ -97,49 +86,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 <script>
-    function calcularSoma(){
+    function copiarEntrada(){
         const dt_planejada = document.getElementById("dt_planejada");
-        const somahora = document.getElementById("somahora");
-        const dt_planejadafinal = document.getElementById("dt_planejadafinal");
+        let dt_planejadafinal = document.getElementById("dt_planejadafinal");
         
-        var soma = new Date();
-
-        soma.setHours(time.getHours()+somahora.value);
-        
-        dt_planejadafinal.textContent ="2025-12-09T00:00:00";
+        let copia = dt_planejada.value;
+        dt_planejadafinal.value = copia;
     }
-    function calcularSoma2(){
-        let dt_planejadafinalidiotaestupida = document.getElementById("dt_planejadafinal2");
-
-        dt_planejadafinalidiotaestupida.textContent = "fishfisuafhsafhsioafh";
-    }
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const select = document.getElementById('somahora');
-        const inputData = document.getElementById('dt_planejada');
-        const dt_planejadafinal2 = document.getElementById('dt_planejadafinal2');
-    
-        select.addEventListener('change', function () {
-            const horasAdicionar = parseInt(select.value);
-            const dataValor = inputData.value;
-        
-            if (!dataValor) {
-                dt_planejadafinal2.value = "Selecione uma data!";
-                return;
-            }
-        
-            // Converte para objeto Date
-            const data = new Date(dataValor);
-        
-            // Adiciona as horas
-            data.setHours(data.getHours() + horasAdicionar);
-        
-            // Formata para yyyy-MM-ddTHH:mm
-            const formatado = data.toISOString().slice(0, 16); // Ex: "2025-07-18T17:00"
-        
-            dt_planejadafinal2.value = formatado.replace('T', ' às ');
-        });
-    });
 </script>

@@ -400,7 +400,7 @@ app.get('/cadReserva/:id/reservas', (req, res) => {
 });
 
 app.post('/cadReserva/reservar', (req, res) => {
-  const {dt_planejada, fk_chave, fk_usuario} = req.body;
+  const {dt_planejada, fk_chave, fk_usuario, dt_planejadafinal} = req.body;
 
   const sql = `INSERT INTO tb_reserva (fk_chave, fk_usuario, dt_planejada, dt_planejadafinal)
                 VALUES (?,?,?,?)`
