@@ -64,14 +64,14 @@ conexao.connect((erro) => {
 });
 
 app.get('/', function (req,res){
-  let sql = 'SELECT * FROM tb_chave ORDER BY titulo';
+  let sql = 'SELECT * FROM tb_chave WHERE emprestada = "NÃO" AND status_chave = "ATIVO" ORDER BY titulo';
   conexao.query(sql, function (erro, tb_chave_qs) {
     if (erro) {
       console.error('Erro ao consultar chaves: ', erro);
       res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    let sql = 'SELECT * FROM tb_usuario ORDER BY nome';
+    let sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
     conexao.query(sql, function (erro, tb_usuario_qs) {
       if (erro) {
         console.error('Erro ao consultar usuários: ', erro);
@@ -91,11 +91,23 @@ app.post('/emprestimo/retirar', (req, res) => {
       VALUES (?,?)
   `;
 
+  const sqlChaveEmprestada = `
+      UPDATE tb_chave 
+      SET emprestada = 'NÃO' 
+      WHERE id_chave=?  
+  `;
+
   conexao.query(sql, [fk_chave, fk_usuario], (erro, resultado) => {
     if (erro) {
       console.error('Erro ao retirar chave: ', erro);
       return res.status(500).send('Erro ao retirar chave.');
     }
+    conexao.query(sqlChaveEmprestada, [fk_chave], (erro, resultado) => {
+      if (erro) {
+        console.error('Erro ao registrar chave retirada: ', erro);
+        return res.status(500).send('Erro ao registrar chave retirada.');
+      }
+    });
     res.redirect('/');
   });
 });
