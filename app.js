@@ -380,7 +380,7 @@ app.get('/cadReserva/:id/reservas', (req, res) => {
 
     let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
 
-    let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} ORDER BY dt_planejada LIMIT 3`;
+    let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} AND status_reserva = 'ATIVO' ORDER BY dt_planejada LIMIT 3`;
     
     conexao.query(sqlChave,[id], function(erro, tb_chave_qs){
         if (erro) {
@@ -422,18 +422,14 @@ app.post('/cadReserva/reservar', (req, res) => {
   });
 });
 
-app.post('/cadReserva/:id/remover', function(req,res){
+app.post('/cadReserva/:id/inativar', (req, res) => {
   const id = req.params.id;
+  const sql = `UPDATE tb_reserva SET status_reserva ='INATIVO' WHERE id_reserva = ?`
 
-  let sql = `DELETE FROM tb_reserva 
-             WHERE id_reserva = ?`;
-
-  console.log([id]);
-
-  conexao.query(sql, [id], function (erro, tb_reserva_del) {
+  conexao.query(sql, id, function (erro) {
     if (erro) {
-      console.error('Erro ao remover reserva: ', erro);
-      res.status(500).send('Erro ao remover reserva');
+      console.error('Erro ao atualizar reserva: ', erro);
+      res.status(500).send('Erro ao atualizar reserva.');
       return;
     }
   });
