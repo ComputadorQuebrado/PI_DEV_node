@@ -83,6 +83,26 @@ app.get('/', function (req,res){
   });
 });
 
+app.get('/cadDevolucao', function (req,res){
+  let sql = `SELECT * FROM tb_chave WHERE emprestada = 'SIM' AND status_chave = 'ATIVO' ORDER BY titulo`;
+  conexao.query(sql, function (erro, tb_chave_qs) {
+    if (erro) {
+      console.error('Erro ao consultar chaves: ', erro);
+      res.status(500).send('Erro ao consultar chaves');
+      return;
+    }
+    let sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
+    conexao.query(sql, function (erro, tb_usuario_qs) {
+      if (erro) {
+        console.error('Erro ao consultar usuários: ', erro);
+        res.status(500).send('Erro ao consultar usuários');
+        return;
+      }
+      res.render('cadDevolucao', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs});
+    });
+  });
+});
+
 app.post('/emprestimo/retirar', (req, res) => {
   const {fk_chave, fk_usuario} = req.body;
 
@@ -93,8 +113,8 @@ app.post('/emprestimo/retirar', (req, res) => {
 
   const sqlChaveEmprestada = `
       UPDATE tb_chave 
-      SET emprestada = 'NÃO' 
-      WHERE id_chave=?  
+      SET emprestada = 'SIM' 
+      WHERE id_chave = ?  
   `;
 
   conexao.query(sql, [fk_chave, fk_usuario], (erro, resultado) => {
@@ -102,10 +122,10 @@ app.post('/emprestimo/retirar', (req, res) => {
       console.error('Erro ao retirar chave: ', erro);
       return res.status(500).send('Erro ao retirar chave.');
     }
-    conexao.query(sqlChaveEmprestada, [fk_chave], (erro, resultado) => {
+    conexao.query(sqlChaveEmprestada, fk_chave, (erro, resultado2) => {
       if (erro) {
-        console.error('Erro ao registrar chave retirada: ', erro);
-        return res.status(500).send('Erro ao registrar chave retirada.');
+        console.error('Erro ao atualizar chave retirada: ', erro);
+        return res.status(500).send('Erro ao atualizar chave retirada.');
       }
     });
     res.redirect('/');

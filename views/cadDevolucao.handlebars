@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-primary py-1">
     <a class="navbar-brand text-white" href="#">
-        KeyLoan - Retirada de Chave
+        KeyLoan - Devolução de Chave
     </a>
 </nav>
 
@@ -36,7 +36,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
+                <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarDevolucao('/emprestimo/devolver')">CONFIRMAR DEVOLUÇÃO</button>
                 <a href="/cadDevolucao" class="btn btn-primary btn-sm"><i class="bi bi-bag-x"></i>DEVOLUÇÃO</a>
             </div>
         </div>
@@ -62,10 +62,10 @@
                 </button>
             </div>
             <div class="toast-body">
-                <span id="nome"></span>, a devolução deverá ocorrer em no máximo 3 horas!
+                <span id="nome"></span>, confirma a devolução?
                 <div class="mt-2 pt-2 border-top d-flex justify-content-end gap-2">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Desistir</button>
-                    <form id="formEmprestimo" method="POST">
+                    <form id="formDevolucao" method="POST">
                         <input type="hidden" name="fk_chave" id="hiddenFkChave">
                         <input type="hidden" name="fk_usuario" id="hiddenFkUsuario">
                         <button type="submit" class="btn btn-sm btn-success">Confirmar</button>
@@ -78,7 +78,7 @@
 </main>
 
 <script>
-function confirmarEmprestimo(url) {
+function confirmarDevolucao(url) {
     // Pegando os selects da tela
     const chaveSelect = document.getElementById('idchave');
     const usuarioSelect = document.getElementById('idusuario');

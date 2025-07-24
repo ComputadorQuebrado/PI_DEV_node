@@ -88,8 +88,18 @@ alter table tb_usuario drop COLUMN autoriza_alerta;
 ALTER TABLE tb_emprestimo
 MODIFY COLUMN dt_emprestimo DATETIME DEFAULT (CURRENT_TIMESTAMP);
 
+
+
 ALTER TABLE tb_emprestimo
 MODIFY COLUMN dt_devolucao DATETIME DEFAULT (CURRENT_TIMESTAMP + INTERVAL 3 HOUR);
+
+ALTER TABLE tb_emprestimo
+RENAME COLUMN dt_devolucao to dt_devolucao_prevista;
+
+ALTER TABLE tb_emprestimo
+ADD COLUMN dt_devolucao DATETIME; 
+
+update tb_emprestimo set dt_devolucao = dt_devolucao_prevista where 1=1;
 
 ALTER TABLE tb_reserva ADD fk_usuario INT NOT NULL;
 
