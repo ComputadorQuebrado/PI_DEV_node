@@ -30,6 +30,9 @@ app.engine('handlebars', engine({
     },
     formatDateTime: (date) => {
       return moment(date).format('DD/MM/YYYY HH:mm')
+    },
+    formatTime: (date) => {
+      return moment(date).format('HH:mm')
     }
   }
 }));
@@ -422,7 +425,7 @@ app.post('/cadReserva/reservar', (req, res) => {
   });
 });
 
-app.post('/cadReserva/:id/inativar', (req, res) => {
+app.post('/cadReserva/:id/desativar', (req, res) => {
   const id = req.params.id;
   const sql = `UPDATE tb_reserva SET status_reserva ='INATIVO' WHERE id_reserva = ?`
 

@@ -18,7 +18,7 @@
     </ul>
 </nav>
 <main class="container">
-    {{!<form action="/cadReserva/reservar" method="POST">}}
+    <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="titulo">ID da chave</label>
@@ -52,9 +52,9 @@
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="btnCancelar">CANCELAR</button>
         <button type="submit" class="btn btn-primary btn-sm">GRAVAR</button>
-    {{!</form>}}
+    </form>
     <div class="form-row">
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-10">
             <label for="reservas">Próximas Reservas</label>
             <div class="container">
                 {{#if tb_reserva.length}}
@@ -64,10 +64,9 @@
                             <div class="card h-100 bg-light border-primary">
                                 <div class="card-body">
                                     <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
-                                    <p class="card-text">{{this.chave_titulo}}</p>
-                                    <h6 class="card-subtitle mb-2 text-muted">Dt Reserva {{formatDate this.dt_reserva}}</h6>
-                                    <p class="card-text">Dt Planejada {{formatDateTime this.dt_planejada}}</p>
-                                    <button class="btn btn-danger btn-sm my-3" onclick="inativarReserva('/cadReserva/{{this.id_reserva}}/inativar')">
+                                    <h6 class="card-subtitle mb-2 text-muted">Reservada em: {{formatDate this.dt_reserva}}</h6>
+                                    <p class="card-text">Para: {{formatDateTime this.dt_planejada}} - {{formatTime this.dt_planejadafinal}}</p>
+                                    <button class="btn btn-danger btn-sm my-3" onclick="desativarReserva('/cadReserva/{{this.id_reserva}}/desativar')">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -85,7 +84,7 @@
     </div>
 </main>
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="toastConfirmarDelete" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toastConfirmarDisable" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header bg-warning text-dark">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             <strong class="me-auto">Confirmação</strong>
@@ -114,13 +113,14 @@
         let copia = dt_planejada.value;
         dt_planejadafinal.value = copia;
     }
-
-    function inativarReserva(url) {
+</script>
+<script>
+    function desativarReserva(url) {
         const form = document.getElementById('formDisable');
         form.action = url;
 
-        const toastEl = document.getElementById('toastConfirmarDelete');
-        const toast = new boostrap.Toast(toastEl);
+        const toastEl = document.getElementById('toastConfirmarDisable');
+        const toast = new bootstrap.Toast(toastEl);
         toast.show();
     }
 </script>
