@@ -116,3 +116,8 @@ ADD COLUMN dt_planejadafinal DATETIME;
 
 ALTER TABLE tb_reserva
 ADD COLUMN status_reserva VARCHAR(10) DEFAULT 'ATIVO';
+
+
+drop table tb_reserva_periodo_chave;
+drop table tb_periodo_chave;
+drop table tb_periodo;

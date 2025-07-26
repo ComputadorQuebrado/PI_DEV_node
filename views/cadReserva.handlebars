@@ -1,22 +1,7 @@
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
-        KeyLoan
-    </a>
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Empréstimo</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled text-light" href="#">Cadastro Reserva</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastro Chave</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastro Usuário</a>
-        </li>
-    </ul>
-</nav>
+<a class="navbar-brand" href="#">
+    KeyLoan
+</a>
+
 <main class="container">
     <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
@@ -51,7 +36,7 @@
             </div>
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="btnCancelar">CANCELAR</button>
-        <button type="submit" class="btn btn-primary btn-sm">GRAVAR</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="conflitoReserva('/cadReserva/reservar')">GRAVAR</button>
     </form>
     <div class="form-row">
         <div class="form-group col-md-10">
