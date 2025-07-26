@@ -102,3 +102,5 @@ INSERT INTO tb_emprestimo (dt_emprestimo, dt_devolucao, fk_chave, fk_usuario) VA
 SELECT * FROM tb_emprestimo;
 
 TRUNCATE TABLE tb_reserva;
+
+update tb_emprestimo set dt_devolucao = NULL where id_emprestimo = 1;
