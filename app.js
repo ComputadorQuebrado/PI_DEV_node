@@ -8,6 +8,8 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
 app.engine('handlebars', engine({
+  defaultLayout: 'main',
+  partialsDir: __dirname + '/views/partials',
   helpers: {
     ifCond: function (v1, operator, v2, options) {
       switch (operator) {
@@ -64,6 +66,55 @@ conexao.connect((erro) => {
     return;
   }
   console.log('😁 Conexão com o banco de dados estabelecida com sucesso!');
+});
+
+app.get('/home', (req,res) => {
+    if (!req.session.usuario) {
+        return('/login');
+    }
+    res.render('home_user', { usuario: req.session.usuario });
+});
+
+app.get('/login', (req,res) => {
+    res.render('login');
+});
+
+app.post('/login', (req,res) => {
+    const { email, senha } = req.body;
+    const sql = 'SELECT * FROM tb_usuario WHERE email = ?';
+
+    conexao.query(sql, [email], (erro, resultado) => {
+        if (erro || resultado.length === 0) {
+            return res.status(401).send('E-mail não encontrado.');
+        }
+
+        const usuario = resultado [0];
+
+        bcrypt.compare(senha, usuario.senha, (erroHash,senhaOk) => {
+            if (erroHash || !senhaOk) {
+                return res.status(401).send('Senha incorreta.');
+            }
+
+            req.session.usuario = {
+                id: usuario.id,
+                nome: usuario.nome,
+                tipo: usuario.fk_cargo,
+                email: usuario.email
+            };
+
+            res.redirect('/home');
+        });
+    });
+});
+
+app.get('/logout', (req,res) => {
+    req.session.destroy((erro) => {
+        if(erro) {
+            console.error('Erro ao encerrar sessão: ', erro);
+            return res.status(500).send('Erro ao encerrar sessão.');
+        }
+        res.redirect('/login');
+    });
 });
 
 app.get('/', function (req,res){
