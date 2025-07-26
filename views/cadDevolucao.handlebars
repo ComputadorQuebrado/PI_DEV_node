@@ -5,11 +5,10 @@
 </nav>
 
 <main class="container">
-    
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputChaveID">Chave</label>
-                <select name="fk_chave" id="idchave" class="form-control">
+                <select name="id_chave" id="idchave" class="form-control">
                         {{#if tb_chaves.length}}
                             {{#each tb_chaves}}
                                 <option value={{this.id_chave}}>{{this.titulo}}</option>
@@ -23,7 +22,7 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="prontuario">Identificação</label>
-                <select name="fk_usuario" id="idusuario" class="form-control">
+                <select name="id_usuario" id="idusuario" class="form-control">
                         {{#if tb_usuarios.length}}
                             {{#each tb_usuarios}}
                                 <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
@@ -36,23 +35,14 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarDevolucao('/emprestimo/devolver')">CONFIRMAR DEVOLUÇÃO</button>
-                <a href="/cadDevolucao" class="btn btn-primary btn-sm"><i class="bi bi-bag-x"></i>DEVOLUÇÃO</a>
+                <button type="button" id="confirmarDevolucao" class="btn btn-primary btn-sm" onclick="confirmarDevolucao('/emprestimo/devolver')">CONFIRMAR DEVOLUÇÃO</button>
+                <a href="/" class="btn btn-primary btn-sm"><i class="bi bi-bag-x"></i>EMPRÉSTIMO</a>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-8">
-                {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
-                <a href="/cadReserva" class="btn btn-secondary btn-sm"><i class="bi bi-bag-check"></i>CADASTRAR RESERVA</a>
-                
-                <a href="/usuarios" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE USUÁRIOS</a>
-                <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
-            </div>
-        </div>    
-    
+</main>    
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="toastConfirmarEmprestimo" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toastConfirmarDevolucao" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header bg-warning text-dark">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                 <strong class="me-auto">Confirmação</strong>
@@ -75,7 +65,7 @@
         </div>
     </div>
 
-</main>
+
 
 <script>
 function confirmarDevolucao(url) {
@@ -93,10 +83,10 @@ function confirmarDevolucao(url) {
     inputFkChave.value = chaveSelect.value;
     inputFkUsuario.value = usuarioSelect.value;
     
-    const form = document.getElementById('formEmprestimo');
+    const form = document.getElementById('formDevolucao');
     form.action = url;
 
-    const toastEl = document.getElementById('toastConfirmarEmprestimo');
+    const toastEl = document.getElementById('toastConfirmarDevolucao');
     const toast = new bootstrap.Toast(toastEl);
     toast.show();
 }

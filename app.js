@@ -114,7 +114,7 @@ app.post('/emprestimo/retirar', (req, res) => {
   const sqlChaveEmprestada = `
       UPDATE tb_chave 
       SET emprestada = 'SIM' 
-      WHERE id_chave = ?  
+      WHERE id_chave = ? AND emprestada <> 'SIM' 
   `;
 
   conexao.query(sql, [fk_chave, fk_usuario], (erro, resultado) => {
@@ -122,10 +122,40 @@ app.post('/emprestimo/retirar', (req, res) => {
       console.error('Erro ao retirar chave: ', erro);
       return res.status(500).send('Erro ao retirar chave.');
     }
-    conexao.query(sqlChaveEmprestada, fk_chave, (erro, resultado2) => {
+    conexao.query(sqlChaveEmprestada, [fk_chave], (erro, resultado2) => {
       if (erro) {
         console.error('Erro ao atualizar chave retirada: ', erro);
         return res.status(500).send('Erro ao atualizar chave retirada.');
+      }
+    });
+    res.redirect('/');
+  });
+});
+
+app.post('/emprestimo/devolver', (req, res) => {
+  const {fk_chave, fk_usuario} = req.body;
+
+  const sql = `
+      UPDATE tb_emprestimo 
+      SET dt_devolucao = now() 
+      WHERE fk_chave = ? AND fk_usuario = ? AND dt_devolucao IS NULL
+  `;
+
+  const sqlChaveDevolvida = `
+      UPDATE tb_chave 
+      SET emprestada = 'NÃO' 
+      WHERE id_chave = ? AND emprestada <> 'NÃO'
+  `;
+
+  conexao.query(sql, [fk_chave, fk_usuario], (erro, resultado) => {
+    if (erro) {
+      console.error('Erro ao devolver chave: ', erro);
+      return res.status(500).send('Erro ao devolver chave.');
+    }
+    conexao.query(sqlChaveDevolvida, [fk_chave], (erro, resultado2) => {
+      if (erro) {
+        console.error('Erro ao atualizar devolução da chave: ', erro);
+        return res.status(500).send('Erro ao atualizar devolução da chave.');
       }
     });
     res.redirect('/');
