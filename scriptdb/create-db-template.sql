@@ -116,3 +116,13 @@ ADD COLUMN dt_planejadafinal DATETIME;
 
 ALTER TABLE tb_reserva
 ADD COLUMN status_reserva VARCHAR(10) DEFAULT 'ATIVO';
+
+
+drop table tb_reserva_periodo_chave;
+drop table tb_periodo_chave;
+drop table tb_periodo;
+
+update tb_reserva 
+set dt_planejada = '2025-10-29 16:00:00', 
+dt_planejadafinal = '2025-10-29 20:00:00'
+where id_reserva = 1

@@ -1,22 +1,7 @@
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
-        KeyLoan
-    </a>
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Empréstimo</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled text-light" href="#">Cadastro Reserva</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastro Chave</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastro Usuário</a>
-        </li>
-    </ul>
-</nav>
+<a class="navbar-brand" href="#">
+    Reserva
+</a>
+
 <main class="container">
     <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
@@ -42,16 +27,16 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="datahora">Data</label>
-                <input type="datetime-local" id="dt_planejada" class="form-control" name="dt_planejada" oninput="copiarEntrada()">
+                <label for="dt_planejada">Data</label>
+                <input type="datetime-local" class="form-control" name="dt_planejada" id="dt_planejada" oninput="copiarEntrada()">
             </div>
             <div class="form-group col-md-4">
                 <label for="dt_planejadafinal">Hora de retorno:</label>
-                <input type="datetime-local" name="dt_planejadafinal" class="form-control" id="dt_planejadafinal">
+                <input type="datetime-local" class="form-control" name="dt_planejadafinal" id="dt_planejadafinal">
             </div>
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="btnCancelar">CANCELAR</button>
-        <button type="submit" class="btn btn-primary btn-sm">GRAVAR</button>
+        <button type="button" class="btn btn-primary btn-sm" id="btnGravar" onclick="verificarConflitoReserva()">GRAVAR</button>
     </form>
     <div class="form-row">
         <div class="form-group col-md-10">
@@ -63,12 +48,18 @@
                         <div class="col">
                             <div class="card h-100 bg-light border-primary">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">{{this.id_reserva}}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Reservada em: {{formatDate this.dt_reserva}}</h6>
-                                    <p class="card-text">Para: {{formatDateTime this.dt_planejada}} - {{formatTime this.dt_planejadafinal}}</p>
-                                    <button class="btn btn-danger btn-sm my-3" onclick="desativarReserva('/cadReserva/{{this.id_reserva}}/desativar')">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <p class="card-title text-primary">
+                                        {{this.id_reserva}} 
+                                        <button class="btn btn-danger btn-sm" 
+                                                onclick="desativarReserva('/cadReserva/{{this.id_reserva}}/desativar')">
+                                               <i class="bi bi-trash"></i>
+                                    </button></p>
+                                    <p class="card-text" >
+                                        <span>Início: </span><span class="card-text" name="card_dt_planejada" id="card_dt_planejada">{{formatDateTime this.dt_planejada}}</span>
+                                        <span><br>Fim: </span><span class="card-text" name="card_dt_planejadafinal" id="card_dt_planejadafinal">{{formatDateTime this.dt_planejadafinal}}</span>
+                                    </p>
+                                    <p class="card-subtitle mb-2 text-muted">Reservada em: {{formatDate this.dt_reserva}}</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -114,6 +105,59 @@
         dt_planejadafinal.value = copia;
     }
 </script>
+
+<script>
+function verificarConflitoReserva() {
+    const dtInicio = new Date(document.getElementById("dt_planejada").value);
+    const dtFim = new Date(document.getElementById("dt_planejadafinal").value);
+
+    if (!dtInicio || !dtFim || isNaN(dtInicio.getTime()) || isNaN(dtFim.getTime())) {
+        alert("Preencha corretamente as datas de início e fim.");
+        return;
+    }
+
+    if (dtFim <= dtInicio) {
+        alert("A data final deve ser maior que a data de início.");
+        return;
+    }
+
+    const cards = document.querySelectorAll('.card');
+    let conflito = false;
+
+    cards.forEach(card => {
+        const dtReservaInicioStr = card.querySelector('#card_dt_planejada').innerText.trim();
+        const dtReservaFimStr = card.querySelector('#card_dt_planejadafinal').innerText.trim();
+
+        const dtReservaInicio = parseDataBRParaDate(dtReservaInicioStr);
+        const dtReservaFim = parseDataBRParaDate(dtReservaFimStr);
+
+        if (!dtReservaInicio || !dtReservaFim) return;
+
+        if ((dtInicio < dtReservaFim) && (dtFim > dtReservaInicio)) {
+            conflito = true;
+        }
+    });
+
+    if (conflito) {
+        alert("Já existe uma reserva nesse período!");
+        return;
+    }
+
+    document.querySelector("form").submit();
+}
+
+// Converte "29/10/2025 08:00" em um objeto Date válido
+function parseDataBRParaDate(dataStr) {
+    const [data, hora] = dataStr.split(' ');
+    if (!data || !hora) return null;
+
+    const [dia, mes, ano] = data.split('/').map(Number);
+    const [horaPart, minutoPart] = hora.split(':').map(Number);
+
+    return new Date(ano, mes - 1, dia, horaPart, minutoPart);
+}
+</script>
+
 <script>
     function desativarReserva(url) {
         const form = document.getElementById('formDisable');
