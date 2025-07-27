@@ -141,12 +141,15 @@ app.get('/', function (req,res){
         res.status(500).send('Erro ao consultar usuários');
         return;
       }
-      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs});
+      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs, usuario: req.session.usuario});
     });
   });
 });
 
 app.get('/cadDevolucao', function (req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   let sql = `SELECT * FROM tb_chave WHERE emprestada = 'SIM' AND status_chave = 'ATIVO' ORDER BY titulo`;
   conexao.query(sql, function (erro, tb_chave_qs) {
     if (erro) {
@@ -167,6 +170,9 @@ app.get('/cadDevolucao', function (req,res){
 });
 
 app.post('/emprestimo/retirar', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const {fk_chave, fk_usuario} = req.body;
 
   const sql = `
@@ -196,6 +202,9 @@ app.post('/emprestimo/retirar', (req, res) => {
 });
 
 app.post('/emprestimo/devolver', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const {fk_chave, fk_usuario} = req.body;
 
   const sql = `
@@ -225,26 +234,19 @@ app.post('/emprestimo/devolver', (req, res) => {
   });
 });
 
-//app.get("/chaves", function (req,res){
-  //let sql = 'SELECT * FROM tb_chave';
-  //conexao.query(sql, function (erro, tb_chave_qs) {
-  //  if (erro) {
-  //    console.error('Erro ao consultar chaves: ', erro);
-  //console.log("passei aqui");
-      //res.status(500).send('Erro ao consultar chave');
-  //    return;
-  //  }
-  //  res.render('chaves');//, {chaves: tb_chave_qs});
-  //});
-//});
-
 app.get('/cadChave', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   res.render('cadChave',{
             formAction: '/cadChave/add', //rota post
   });
 });
 
 app.get('/chaves', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   let sql = 'SELECT * FROM tb_chave';
   conexao.query(sql, function (erro, tb_chaves_qs) {
     if (erro) {
@@ -257,6 +259,9 @@ app.get('/chaves', function(req,res){
 });
 
 app.post('/cadChave/add', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
   const sql=`
   INSERT INTO tb_chave (titulo, status_chave, permite_reserva, descricao)
@@ -272,6 +277,9 @@ app.post('/cadChave/add', (req, res) => {
 });
 
 app.get('/chave/:id/detalhes', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   let sql = `SELECT * FROM tb_chave 
@@ -288,6 +296,9 @@ app.get('/chave/:id/detalhes', function(req,res){
 });
 
 app.get('/chave/:id/editar', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
   let sql = `SELECT * FROM tb_chave 
              WHERE id_chave = ?`;
@@ -307,6 +318,9 @@ app.get('/chave/:id/editar', function(req,res){
 });
 
 app.post('/chave/:id/editar', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   const {titulo, status_chave, permite_reserva, descricao} = req.body;
@@ -328,12 +342,13 @@ app.post('/chave/:id/editar', function(req,res){
 });
 
 app.post('/chave/:id/remover', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   let sql = `DELETE FROM tb_chave 
              WHERE id_chave = ?`;
-
-  //console.log([id]);
 
   conexao.query(sql, [id], function (erro, tb_chave_del) {
     if (erro) {
@@ -348,6 +363,9 @@ app.post('/chave/:id/remover', function(req,res){
 });
 
 app.get('/cadUsuario', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   let sql_cargo = `SELECT * 
                     FROM tb_cargo
                     order by descricao_cargo`;
@@ -365,6 +383,9 @@ app.get('/cadUsuario', function(req,res){
 });
 
 app.get('/usuarios', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   let sql = 'SELECT * FROM tb_usuario';
   conexao.query(sql, function (erro, tb_usuarios_qs) {
     if (erro) {
@@ -377,6 +398,9 @@ app.get('/usuarios', function(req,res){
 });
 
 app.post('/cadUsuario/add', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
   const sql=`
   INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, status_usuario, fk_cargo)
@@ -392,6 +416,9 @@ app.post('/cadUsuario/add', (req, res) => {
 });
 
 app.get('/usuario/:id/detalhes', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   let sql = `SELECT tu.*, tc.descricao_cargo 
@@ -410,6 +437,9 @@ app.get('/usuario/:id/detalhes', function(req,res){
 });
 
 app.get('/usuario/:id/editar', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
   let sql = `SELECT * FROM tb_usuario 
              WHERE id_usuario = ?`;
@@ -432,14 +462,6 @@ app.get('/usuario/:id/editar', function(req,res){
         return;
       }
 
-      //console.log('Tipo do fk_cargo:', typeof usuario.fk_cargo);
-      //console.log('Valor:', usuario.fk_cargo);
-
-      //console.log(tb_cargos_qs.map(c => ({
-      //  id_cargo: c.id_cargo,
-      //  tipo: typeof c.id_cargo
-      //})));
-
       res.render('cadUsuario', {
                   formAction: `/usuario/${id}/editar`,//rota post
                   usuario,
@@ -450,6 +472,9 @@ app.get('/usuario/:id/editar', function(req,res){
 });
 
 app.post('/usuario/:id/editar', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   const {perfil_adm, prontuario, nome, email, status_usuario, fk_cargo} = req.body;
@@ -469,6 +494,9 @@ app.post('/usuario/:id/editar', function(req,res){
 });
 
 app.post('/usuario/:id/remover', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
 
   let sql = `DELETE FROM tb_usuario 
@@ -487,6 +515,9 @@ app.post('/usuario/:id/remover', function(req,res){
 });
 
 app.get('/cadReserva', function(req,res){
+  if (!req.session.usuario) {
+    return('/login');
+  }
   let sql = 'SELECT * FROM tb_chave';
   conexao.query(sql, function (erro, tb_chaves_qs) {
     if (erro) {
@@ -499,40 +530,46 @@ app.get('/cadReserva', function(req,res){
 });
 
 app.get('/cadReserva/:id/reservas', (req, res) => {
-    const id = req.params.id;
+  if (!req.session.usuario) {
+    return('/login');
+  }
+  const id = req.params.id;
 
-    let sqlChave = `SELECT * FROM tb_chave WHERE id_chave = ${id}`;
+  let sqlChave = `SELECT * FROM tb_chave WHERE id_chave = ${id}`;
 
-    let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
+  let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
 
-    let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} AND status_reserva = 'ATIVO' ORDER BY dt_planejada LIMIT 3`;
-    
-    conexao.query(sqlChave,[id], function(erro, tb_chave_qs){
-        if (erro) {
-            console.error('Erro ao consultar reservas: ', erro);
-            res.status(500).send('Erro ao consultar reservas.');
-            return;
+  let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} AND status_reserva = 'ATIVO' ORDER BY dt_planejada LIMIT 3`;
+  
+  conexao.query(sqlChave,[id], function(erro, tb_chave_qs){
+      if (erro) {
+          console.error('Erro ao consultar reservas: ', erro);
+          res.status(500).send('Erro ao consultar reservas.');
+          return;
+      }
+      conexao.query(sqlUsuario, function(erro, tb_usuario_qs){
+        if(erro) {
+          console.error('Erro ao consultar usuários: ', erro);
+          res.status(500).send('Erro ao consultar usuários.');
+          return;
         }
-        conexao.query(sqlUsuario, function(erro, tb_usuario_qs){
+        conexao.query(sqlReserva, function(erro,tb_reserva_qs){
           if(erro) {
-            console.error('Erro ao consultar usuários: ', erro);
+            console.error('Erro ao consultar reservas: ', erro);
             res.status(500).send('Erro ao consultar usuários.');
             return;
           }
-          conexao.query(sqlReserva, function(erro,tb_reserva_qs){
-            if(erro) {
-              console.error('Erro ao consultar reservas: ', erro);
-              res.status(500).send('Erro ao consultar usuários.');
-              return;
-            }
-            const chave = tb_chave_qs[0];
-            res.render('cadReserva', { chave, tb_usuario: tb_usuario_qs, tb_reserva: tb_reserva_qs });
-          });
+          const chave = tb_chave_qs[0];
+          res.render('cadReserva', { chave, tb_usuario: tb_usuario_qs, tb_reserva: tb_reserva_qs });
         });
-    });
+      });
+  });
 });
 
 app.post('/cadReserva/reservar', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const {dt_planejada, fk_chave, fk_usuario, dt_planejadafinal} = req.body;
 
   const sql = `INSERT INTO tb_reserva (fk_chave, fk_usuario, dt_planejada, dt_planejadafinal)
@@ -548,6 +585,9 @@ app.post('/cadReserva/reservar', (req, res) => {
 });
 
 app.post('/cadReserva/:id/desativar', (req, res) => {
+  if (!req.session.usuario) {
+    return('/login');
+  }
   const id = req.params.id;
   const sql = `UPDATE tb_reserva SET status_reserva ='INATIVO' WHERE id_reserva = ?`
 
@@ -560,20 +600,5 @@ app.post('/cadReserva/:id/desativar', (req, res) => {
   });
   res.redirect('/cadReserva');
 });
-
-/*app.post('/cadUsuario/add', (req, res) => {
-  const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
-  const sql=`
-  INSERT INTO tb_usuario (perfil_adm, prontuario, nome, email, status_usuario, fk_cargo)
-  VALUES (?,?,?,?,?,?)
-  `;
-  conexao.query(sql, [perfil_adm, prontuario, nome, email, status_usuario, fk_cargo], (erro,resultado) => {
-    if(erro){
-      console.error('Erro ao inserir usuário:',erro);
-      return res.status(500).send('Erro ao adicionar usuário');
-    }
-    res.redirect('/usuarios');
-  });
-});*/
 
 app.listen(8080);
