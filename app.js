@@ -40,6 +40,9 @@ app.engine('handlebars', engine({
 }));
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
+
+
 
 const mysql = require('mysql2');
 
@@ -55,6 +58,12 @@ app.use(session({
   resave: false,
   cookie: {maxAge:3600000}
 }));
+
+// Torna `usuario` acessível nas views e partials
+app.use((req, res, next) => {
+  res.locals.usuario = req.session.usuario || null;
+  next();
+});
 
 app.use('/js',express.static(__dirname+'/js'));
 
@@ -105,7 +114,7 @@ app.post('/login', (req,res) => {
             }
 
             req.session.usuario = {
-                id: usuario.id,
+                id: usuario.id_usuario,
                 nome: usuario.nome,
                 tipo: usuario.fk_cargo,
                 email: usuario.email
@@ -134,8 +143,19 @@ app.get('/', function (req,res){
       res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    let sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
-    conexao.query(sql, function (erro, tb_usuario_qs) {
+    let sql
+    let tipo = req.session.usuario.tipo;
+    let params = [];
+
+    if (tipo == 1){
+      sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
+    }
+    else {
+      sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" AND id_usuario = ? ORDER BY nome';
+      params.push(req.session.usuario.id); // ou o campo correto que identifica o usuário
+    }
+    
+    conexao.query(sql, params, function (erro, tb_usuario_qs) {
       if (erro) {
         console.error('Erro ao consultar usuários: ', erro);
         res.status(500).send('Erro ao consultar usuários');
@@ -157,8 +177,19 @@ app.get('/cadDevolucao', function (req,res){
       res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    let sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
-    conexao.query(sql, function (erro, tb_usuario_qs) {
+    let sql2
+    let tipo = req.session.usuario.tipo;
+    let params = [];
+
+    if (tipo == 1){
+      sql2 = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
+    }
+    else {
+      sql2 = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" AND id_usuario = ? ORDER BY nome';
+      params.push(req.session.usuario.id); // ou o campo correto que identifica o usuário
+    }
+    
+    conexao.query(sql2, params, function (erro, tb_usuario_qs) {
       if (erro) {
         console.error('Erro ao consultar usuários: ', erro);
         res.status(500).send('Erro ao consultar usuários');
