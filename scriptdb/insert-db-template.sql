@@ -104,3 +104,10 @@ SELECT * FROM tb_emprestimo;
 TRUNCATE TABLE tb_reserva;
 
 update tb_emprestimo set dt_devolucao = NULL where id_emprestimo = 1;
+
+ALTER TABLE tb_usuario ADD COLUMN senha VARCHAR(255);
+
+UPDATE tb_usuario SET senha = '$2b$10$vcShCSwNHImUdm0/x2xk3e9qBh1DYR4vY.MUvGoX92e6N/ZYnBBNe';
+
+UPDATE tb_cargo SET descricao_cargo = 'Administrador' WHERE id_cargo = 1;
+UPDATE tb_cargo SET descricao_cargo = 'Síndico' WHERE id_cargo = 5;
