@@ -47,6 +47,15 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist')
 app.use('/bootstrap-icons', express.static(__dirname + '/node_modules/bootstrap-icons/font'));
 app.use('/static', express.static(__dirname + '/static'));
 
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+
+app.use(session({
+  secret: 'chave-secreta-ultra-segura',
+  resave: false,
+  cookie: {maxAge:3600000}
+}));
+
 app.use('/js',express.static(__dirname+'/js'));
 
 
