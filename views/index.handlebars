@@ -37,9 +37,10 @@
         <div class="form-group col-md-8">
             {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
             <a href="/cadReserva" class="btn btn-secondary btn-sm"><i class="bi bi-bag-check"></i>CADASTRAR RESERVA</a>
-            
-            <a href="/usuarios" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE USUÁRIOS</a>
-            <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
+            {{#ifCond tipo '==' 1}}
+                <a href="/usuarios" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE USUÁRIOS</a>
+                <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
+            {{/ifCond}}
         </div>
     </div>    
     

@@ -155,13 +155,13 @@ app.get('/', function (req,res){
       params.push(req.session.usuario.id); // ou o campo correto que identifica o usuário
     }
     
-    conexao.query(sql, params, function (erro, tb_usuario_qs) {
+    conexao.query(sql, params, function (erro, tb_usuario_qs, tipo) {
       if (erro) {
         console.error('Erro ao consultar usuários: ', erro);
         res.status(500).send('Erro ao consultar usuários');
         return;
       }
-      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs, usuario: req.session.usuario});
+      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs, usuario: req.session.usuario, tipo});
     });
   });
 });
