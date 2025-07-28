@@ -143,7 +143,7 @@ app.get('/', function (req,res){
       res.status(500).send('Erro ao consultar chaves');
       return;
     }
-    let sql
+    let sql;
     let tipo = req.session.usuario.tipo;
     let params = [];
 

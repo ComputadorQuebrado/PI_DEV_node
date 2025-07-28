@@ -111,3 +111,5 @@ UPDATE tb_usuario SET senha = '$2b$10$vcShCSwNHImUdm0/x2xk3e9qBh1DYR4vY.MUvGoX92
 
 UPDATE tb_cargo SET descricao_cargo = 'Administrador' WHERE id_cargo = 1;
 UPDATE tb_cargo SET descricao_cargo = 'Síndico' WHERE id_cargo = 5;
+
+UPDATe tb_reserva set status_reserva = "INATIVO" where id_reserva > 12
