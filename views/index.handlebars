@@ -1,48 +1,47 @@
 <main class="container">
-    
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="inputChaveID">Chave</label>
-                <select name="fk_chave" id="idchave" class="form-control">
-                        {{#if tb_chaves.length}}
-                            {{#each tb_chaves}}
-                                <option value={{this.id_chave}}>{{this.titulo}}</option>
-                            {{/each}}
-                        {{else}}
-                            <option value="NA">Sem chaves disponíveis.</option>
-                        {{/if}}
-                </select>
-            </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="inputChaveID">Chave</label>
+            <select name="fk_chave" id="idchave" class="form-control">
+                {{#if tb_chaves.length}}
+                    {{#each tb_chaves}}
+                        <option value={{this.id_chave}}>{{this.titulo}}</option>
+                    {{/each}}
+                {{else}}
+                    <option value="NA">Sem chaves disponíveis.</option>
+                {{/if}}
+            </select>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="prontuario">Identificação</label>
-                <select name="fk_usuario" id="idusuario" class="form-control">
-                        {{#if tb_usuarios.length}}
-                            {{#each tb_usuarios}}
-                                <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
-                            {{/each}}
-                        {{else}}
-                            <option value="NA">Sem usuários disponíveis.</option>
-                        {{/if}}
-                </select>
-            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="prontuario">Identificação</label>
+            <select name="fk_usuario" id="idusuario" class="form-control">
+                    {{#if tb_usuarios.length}}
+                        {{#each tb_usuarios}}
+                            <option value={{this.id_usuario}}>{{this.nome}} - {{this.prontuario}}</option>
+                        {{/each}}
+                    {{else}}
+                        <option value="NA">Sem usuários disponíveis.</option>
+                    {{/if}}
+            </select>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
-                <a href="/cadDevolucao" class="btn btn-primary btn-sm"><i class="bi bi-bag-x"></i>DEVOLUÇÃO</a>
-            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <button type="button" id="confirmarEmprestimo" class="btn btn-primary btn-sm" onclick="confirmarEmprestimo('/emprestimo/retirar')">CONFIRMAR RETIRADA</button>
+            <a href="/cadDevolucao" class="btn btn-primary btn-sm"><i class="bi bi-bag-x"></i>DEVOLUÇÃO</a>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-8">
-                {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
-                <a href="/cadReserva" class="btn btn-secondary btn-sm"><i class="bi bi-bag-check"></i>CADASTRAR RESERVA</a>
-                
-                <a href="/usuarios" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE USUÁRIOS</a>
-                <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
-            </div>
-        </div>    
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            {{!<a href="/" class="btn btn-primary m-3" role="button">Empréstimo</a>}}
+            <a href="/cadReserva" class="btn btn-secondary btn-sm"><i class="bi bi-bag-check"></i>CADASTRAR RESERVA</a>
+            
+            <a href="/usuarios" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE USUÁRIOS</a>
+            <a href="/chaves" class="btn btn-secondary btn-sm my-3"><i class="bi bi-list"></i>LISTA DE CHAVES</a>
+        </div>
+    </div>    
     
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
@@ -72,27 +71,27 @@
 </main>
 
 <script>
-function confirmarEmprestimo(url) {
-    // Pegando os selects da tela
-    const chaveSelect = document.getElementById('idchave');
-    const usuarioSelect = document.getElementById('idusuario');
-    const msg = document.getElementById('nome');
-    msg.textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+    function confirmarEmprestimo(url) {
+        // Pegando os selects da tela
+        const chaveSelect = document.getElementById('idchave');
+        const usuarioSelect = document.getElementById('idusuario');
+        const msg = document.getElementById('nome');
+        msg.textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
 
-    // Pegando os inputs escondidos do formulário dentro do toast
-    const inputFkChave = document.getElementById('hiddenFkChave');
-    const inputFkUsuario = document.getElementById('hiddenFkUsuario');
+        // Pegando os inputs escondidos do formulário dentro do toast
+        const inputFkChave = document.getElementById('hiddenFkChave');
+        const inputFkUsuario = document.getElementById('hiddenFkUsuario');
 
-    // Atribuindo os valores selecionados
-    inputFkChave.value = chaveSelect.value;
-    inputFkUsuario.value = usuarioSelect.value;
-    
-    const form = document.getElementById('formEmprestimo');
-    form.action = url;
+        // Atribuindo os valores selecionados
+        inputFkChave.value = chaveSelect.value;
+        inputFkUsuario.value = usuarioSelect.value;
+        
+        const form = document.getElementById('formEmprestimo');
+        form.action = url;
 
-    const toastEl = document.getElementById('toastConfirmarEmprestimo');
-    const toast = new bootstrap.Toast(toastEl);
-    toast.show();
-}
+        const toastEl = document.getElementById('toastConfirmarEmprestimo');
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
 </script>
 
