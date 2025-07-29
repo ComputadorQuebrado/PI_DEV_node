@@ -88,16 +88,16 @@ conexao.connect((erro) => {
 
 app.get('/home', (req,res) => {
     if (!req.session.usuario) {
-        return('/login');
+        return('/');
     }
     res.render('home_user', { usuario: req.session.usuario });
 });
 
-app.get('/login', (req,res) => {
+app.get('/', (req,res) => {
     res.render('login');
 });
 
-app.post('/login', (req,res) => {
+app.post('/', (req,res) => {
     const { email, senha } = req.body;
     const sql = 'SELECT * FROM tb_usuario WHERE email = ?';
 
@@ -131,11 +131,11 @@ app.get('/logout', (req,res) => {
             console.error('Erro ao encerrar sessão: ', erro);
             return res.status(500).send('Erro ao encerrar sessão.');
         }
-        res.redirect('/login');
+        res.redirect('/');
     });
 });
 
-app.get('/', function (req,res){
+app.get('/emprestimo', function (req,res){
   let sql = 'SELECT * FROM tb_chave WHERE emprestada = "NÃO" AND status_chave = "ATIVO" ORDER BY titulo';
   conexao.query(sql, function (erro, tb_chave_qs) {
     if (erro) {
@@ -144,10 +144,10 @@ app.get('/', function (req,res){
       return;
     }
     let sql;
-    let tipo = req.session.usuario.tipo;
+    let tipoo = req.session.usuario.tipo;
     let params = [];
 
-    if (tipo == 1){
+    if (tipoo == 1){
       sql = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
     }
     else {
@@ -155,20 +155,20 @@ app.get('/', function (req,res){
       params.push(req.session.usuario.id); // ou o campo correto que identifica o usuário
     }
     
-    conexao.query(sql, params, function (erro, tb_usuario_qs, tipo) {
+    conexao.query(sql, params, function (erro, tb_usuario_qs, tipoo) {
       if (erro) {
         console.error('Erro ao consultar usuários: ', erro);
         res.status(500).send('Erro ao consultar usuários');
         return;
       }
-      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs, usuario: req.session.usuario, tipo});
+      res.render('index', {tb_chaves: tb_chave_qs, tb_usuarios: tb_usuario_qs, usuario: req.session.usuario, tipoo});
     });
   });
 });
 
 app.get('/cadDevolucao', function (req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   let sql = `SELECT * FROM tb_chave WHERE emprestada = 'SIM' AND status_chave = 'ATIVO' ORDER BY titulo`;
   conexao.query(sql, function (erro, tb_chave_qs) {
@@ -202,7 +202,7 @@ app.get('/cadDevolucao', function (req,res){
 
 app.post('/emprestimo/retirar', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const {fk_chave, fk_usuario} = req.body;
 
@@ -228,13 +228,13 @@ app.post('/emprestimo/retirar', (req, res) => {
         return res.status(500).send('Erro ao atualizar chave retirada.');
       }
     });
-    res.redirect('/');
+    res.redirect('/emprestimo');
   });
 });
 
 app.post('/emprestimo/devolver', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const {fk_chave, fk_usuario} = req.body;
 
@@ -261,13 +261,13 @@ app.post('/emprestimo/devolver', (req, res) => {
         return res.status(500).send('Erro ao atualizar devolução da chave.');
       }
     });
-    res.redirect('/');
+    res.redirect('/emprestimo');
   });
 });
 
 app.get('/cadChave', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   res.render('cadChave',{
             formAction: '/cadChave/add', //rota post
@@ -276,7 +276,7 @@ app.get('/cadChave', function(req,res){
 
 app.get('/chaves', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   let sql = 'SELECT * FROM tb_chave';
   conexao.query(sql, function (erro, tb_chaves_qs) {
@@ -291,7 +291,7 @@ app.get('/chaves', function(req,res){
 
 app.post('/cadChave/add', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const {titulo, status_chave, permite_reserva, descricao, emprestada} = req.body;
   const sql=`
@@ -309,7 +309,7 @@ app.post('/cadChave/add', (req, res) => {
 
 app.get('/chave/:id/detalhes', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -328,7 +328,7 @@ app.get('/chave/:id/detalhes', function(req,res){
 
 app.get('/chave/:id/editar', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
   let sql = `SELECT * FROM tb_chave 
@@ -350,7 +350,7 @@ app.get('/chave/:id/editar', function(req,res){
 
 app.post('/chave/:id/editar', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -374,7 +374,7 @@ app.post('/chave/:id/editar', function(req,res){
 
 app.post('/chave/:id/remover', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -395,7 +395,7 @@ app.post('/chave/:id/remover', function(req,res){
 
 app.get('/cadUsuario', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   let sql_cargo = `SELECT * 
                     FROM tb_cargo
@@ -415,7 +415,7 @@ app.get('/cadUsuario', function(req,res){
 
 app.get('/usuarios', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   let sql = 'SELECT * FROM tb_usuario';
   conexao.query(sql, function (erro, tb_usuarios_qs) {
@@ -430,7 +430,7 @@ app.get('/usuarios', function(req,res){
 
 app.post('/cadUsuario/add', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const {perfil_adm, prontuario, nome, email, autoriza_alerta, status_usuario, fk_cargo} = req.body;
   const sql=`
@@ -448,7 +448,7 @@ app.post('/cadUsuario/add', (req, res) => {
 
 app.get('/usuario/:id/detalhes', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -469,7 +469,7 @@ app.get('/usuario/:id/detalhes', function(req,res){
 
 app.get('/usuario/:id/editar', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
   let sql = `SELECT * FROM tb_usuario 
@@ -504,7 +504,7 @@ app.get('/usuario/:id/editar', function(req,res){
 
 app.post('/usuario/:id/editar', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -526,7 +526,7 @@ app.post('/usuario/:id/editar', function(req,res){
 
 app.post('/usuario/:id/remover', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
@@ -547,7 +547,7 @@ app.post('/usuario/:id/remover', function(req,res){
 
 app.get('/cadReserva', function(req,res){
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   let sql = 'SELECT * FROM tb_chave';
   conexao.query(sql, function (erro, tb_chaves_qs) {
@@ -562,13 +562,25 @@ app.get('/cadReserva', function(req,res){
 
 app.get('/cadReserva/:id/reservas', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
 
   let sqlChave = `SELECT * FROM tb_chave WHERE id_chave = ${id}`;
 
-  let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
+  let sqlUsuario;
+  let tipo = req.session.usuario.tipo;
+  let params = [];
+
+  if (tipo == 1){
+    sqlUsuario = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" ORDER BY nome';
+  }
+  else {
+    sqlUsuario = 'SELECT * FROM tb_usuario WHERE status_usuario = "ATIVO" AND id_usuario = ? ORDER BY nome';
+    params.push(req.session.usuario.id); 
+  }
+
+  //let sqlUsuario = `SELECT * FROM tb_usuario ORDER BY nome`;
 
   let sqlReserva = `SELECT * FROM tb_reserva WHERE dt_planejada > NOW() AND fk_chave = ${id} AND status_reserva = 'ATIVO' ORDER BY dt_planejada LIMIT 3`;
   
@@ -578,7 +590,7 @@ app.get('/cadReserva/:id/reservas', (req, res) => {
           res.status(500).send('Erro ao consultar reservas.');
           return;
       }
-      conexao.query(sqlUsuario, function(erro, tb_usuario_qs){
+      conexao.query(sqlUsuario, params, function(erro, tb_usuario_qs){
         if(erro) {
           console.error('Erro ao consultar usuários: ', erro);
           res.status(500).send('Erro ao consultar usuários.');
@@ -599,7 +611,7 @@ app.get('/cadReserva/:id/reservas', (req, res) => {
 
 app.post('/cadReserva/reservar', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const {dt_planejada, fk_chave, fk_usuario, dt_planejadafinal} = req.body;
 
@@ -617,7 +629,7 @@ app.post('/cadReserva/reservar', (req, res) => {
 
 app.post('/cadReserva/:id/desativar', (req, res) => {
   if (!req.session.usuario) {
-    return('/login');
+    return('/');
   }
   const id = req.params.id;
   const sql = `UPDATE tb_reserva SET status_reserva ='INATIVO' WHERE id_reserva = ?`

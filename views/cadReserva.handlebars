@@ -1,15 +1,15 @@
 <main class="container">
     <form action="/cadReserva/reservar" method="POST">
         <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="titulo">ID da chave</label>
+            <div class="form-group col-md-4" style="margin-bottom: 0px;">
+                <label>ID da chave</label>
                 <p name="id_chave">{{chave.titulo}}</p>
                 <input type="hidden" name="fk_chave" value="{{chave.id_chave}}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
-                <label for="codigo" >Código</label>
+                <label>Código</label>
                 <select name="fk_usuario" id="idusuario" class="form-control">
                     {{#if tb_usuario.length}}
                         {{#each tb_usuario}}
@@ -36,26 +36,26 @@
     </form>
     <div class="form-row">
         <div class="form-group col-md-10">
-            <label for="reservas">Próximas Reservas</label>
+            <label>Próximas Reservas</label>
             <div class="container">
                 {{#if tb_reserva.length}}
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {{#each tb_reserva}}
                         <div class="col">
                             <div class="card h-100 bg-light border-primary">
-                                <div class="card-body">
+                                <div class="card-body" style="padding: 15px;">
                                     <p class="card-title text-primary">
                                         {{this.id_reserva}} 
                                         <button class="btn btn-danger btn-sm" 
-                                                onclick="desativarReserva('/cadReserva/{{this.id_reserva}}/desativar')">
-                                               <i class="bi bi-trash"></i>
-                                    </button></p>
-                                    <p class="card-text" >
+                                                onclick="confirmarApagar('/cadReserva/{{this.id_reserva}}/desativar')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </p>
+                                    <p class="card-text">
                                         <span>Início: </span><span class="card-text" name="card_dt_planejada" id="card_dt_planejada">{{formatDateTime this.dt_planejada}}</span>
                                         <span><br>Fim: </span><span class="card-text" name="card_dt_planejadafinal" id="card_dt_planejadafinal">{{formatDateTime this.dt_planejadafinal}}</span>
+                                        <span><br>Reservada em: </span><span class="card-text" name="card_dt_reserva" id="card_dt_reserva">{{formatDate this.dt_reserva}}</span>
                                     </p>
-                                    <p class="card-subtitle mb-2 text-muted">Reservada em: {{formatDate this.dt_reserva}}</p>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
     </div>
 </main>
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="toastConfirmarDisable" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toastConfirmarDelete" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header bg-warning text-dark">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             <strong class="me-auto">Confirmação</strong>
@@ -83,7 +83,7 @@
             Tem certeza que deseja inativar este item?
             <div class="mt-2 pt-2 border-top d-flex justify-content-end gap-2">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Cancelar</button>
-                <form id="formDisable" method="POST">
+                <form id="formDelete" method="POST">
                     <button type="submit" class="btn btn-sm btn-danger">Inativar</button>
                 </form>
             </div>
@@ -91,6 +91,16 @@
     </div>
 </div>
 
+<script>
+  function confirmarApagar(url) {
+    const form = document.getElementById('formDelete');
+    form.action = url;
+
+    const toastEl = document.getElementById('toastConfirmarDelete');
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+  }
+</script>
 
 <script>
     function copiarEntrada(){
@@ -154,13 +164,6 @@ function parseDataBRParaDate(dataStr) {
 }
 </script>
 
-<script>
-    function desativarReserva(url) {
-        const form = document.getElementById('formDisable');
-        form.action = url;
 
-        const toastEl = document.getElementById('toastConfirmarDisable');
-        const toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    }
-</script>
+
+

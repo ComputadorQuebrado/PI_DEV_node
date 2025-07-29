@@ -1,6 +1,6 @@
   function redirecionarParaHome() {
     // Redireciona para a página desejada
-    window.location.href = "/";
+    window.location.href = "/home";
   }
 
   document.addEventListener("DOMContentLoaded", function () {
